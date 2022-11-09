@@ -28,7 +28,7 @@ export default function Index() {
         <article className={styles.buttons}>
           <div>
             Rating and Reviews
-            <Link href="/review">view now!</Link>
+            <Link href="/review">view</Link>
           </div>
           <div>
             Order Now!
