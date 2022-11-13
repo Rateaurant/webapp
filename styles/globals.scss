@@ -1,11 +1,12 @@
-@import "font.scss";
+@import "font.scss"; //! Always import font.scss before vars.scss
 @import "vars.scss";
 
 html,
 body {
   padding: 0;
   margin: 0;
-  font-family: "Montserrat", sans-serif;
+  font-family: $font;
+  color: white;
 }
 
 a {
