@@ -1,6 +1,9 @@
+@import "../vars.scss";
+
 .head {
   display: flex;
   justify-content: center;
+  background: $drop-shadow-gradient;
   div {
     display: flex;
     align-items: flex-end;
