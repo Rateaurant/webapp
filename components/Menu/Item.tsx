@@ -25,7 +25,7 @@ export default function Item(props: {
           <div className={styles.description}>{description}</div>
         </div>
         <Image
-          src={require("public/menu/Add.svg")}
+          src={require("public/Menu/Add.svg")}
           alt="Add"
           width={addItemResolution}
           height={addItemResolution}
