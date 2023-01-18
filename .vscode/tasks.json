@@ -1,42 +1,56 @@
 {
-  "version": "2.0.0",
-  "tasks": [
-    {
-      "type": "npm",
-      "script": "dev",
-      "problemMatcher": [],
-      "label": "npm: dev",
-      "detail": "next dev"
-    },
-    {
-      "type": "npm",
-      "script": "build",
-      "group": "build",
-      "problemMatcher": [],
-      "label": "npm: build",
-      "detail": "next build"
-    },
-    {
-      "type": "npm",
-      "script": "install",
-      "group": "clean",
-      "problemMatcher": [],
-      "label": "npm: install",
-      "detail": "install dependencies from package"
-    },
-    {
-      "type": "npm",
-      "script": "lint",
-      "problemMatcher": [],
-      "label": "npm: lint",
-      "detail": "next lint"
-    },
-    {
-      "type": "npm",
-      "script": "start",
-      "problemMatcher": [],
-      "label": "npm: start",
-      "detail": "next start"
-    }
-  ]
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"type": "npm",
+			"script": "build",
+			"group": "build",
+			"problemMatcher": [],
+			"label": "npm: build",
+			"detail": "vite build"
+		},
+		{
+			"type": "npm",
+			"script": "dev",
+			"problemMatcher": [],
+			"label": "npm: dev",
+			"detail": "vite dev"
+		},
+		{
+			"type": "npm",
+			"script": "format",
+			"problemMatcher": [],
+			"label": "npm: format",
+			"detail": "prettier --plugin-search-dir . --write ."
+		},
+		{
+			"type": "npm",
+			"script": "lint",
+			"problemMatcher": [],
+			"label": "npm: lint",
+			"detail": "prettier --plugin-search-dir . --check . && eslint ."
+		},
+		{
+			"type": "npm",
+			"script": "preview",
+			"problemMatcher": [],
+			"label": "npm: preview",
+			"detail": "vite preview"
+		},
+		{
+			"type": "npm",
+			"script": "test:unit",
+			"problemMatcher": [],
+			"label": "npm: test:unit",
+			"detail": "vitest"
+		},
+		{
+			"type": "npm",
+			"script": "install",
+			"group": "clean",
+			"problemMatcher": [],
+			"label": "npm: install",
+			"detail": "install dependencies from package"
+		}
+	]
 }
