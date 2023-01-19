@@ -44,7 +44,12 @@
 	.box {
 		margin-top: 5rem;
 	}
+	.box:hover {
+		cursor: pointer;
+	}
 	.box:hover > div > .buttonCaption {
+		transform: translateY(1rem);
+		scale: 1.5;
 	}
 	.box:hover > div > .buttonIcon {
 		transform: rotate(360deg);
