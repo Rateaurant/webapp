@@ -17,17 +17,19 @@
 	}
 </script>
 
-<!-- Loading the dynamic style -->
-<div
-	class="hidden
+{#if false}
+	<!-- Loading the dynamic style -->
+	<div
+		class="hidden
     from-[#79F67E]
     to-[#79f67d00]"
-/>
-<div
-	class="hidden
+	/>
+	<div
+		class="hidden
     from-[#F67979]
     to-[#f6797900]"
-/>
+	/>
+{/if}
 
 <div
 	class="bg-gradient-to-b p-10
