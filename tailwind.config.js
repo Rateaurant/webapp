@@ -16,6 +16,9 @@ export default {
     extend: {
       fontFamily: {
         montserrat: ['Montserrat']
+      },
+      dropShadow: {
+        '3xl': '0px 0px 20px rgba(0, 0, 0, 1)'
       }
     },
   },
