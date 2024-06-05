@@ -27,7 +27,7 @@
 
 <style>
 	body {
-		overflow: hidden;
+		overflow-x: hidden;
 		background-image: url('/background.svg');
 		background-repeat: no-repeat;
 		background-attachment: fixed;

@@ -16,12 +16,13 @@
 				aria-label="Password input"
 				class="bg-dark-15 rounded-3xl text-center p-3"
 				placeholder="Password" />
-			<a
-				aria-label="I forgot my password"
-				href="/forgot-my-password"
-				class="self-center">I forgot my password</a>
+
+			<!-- TODO href -->
+			<a aria-label="I forgot my password" href="/" class="self-center"
+				>I forgot my password</a>
 		</div>
 		<button
+			aria-label="Sign in to Rateaurant"
 			class="bg-gradient-to-r from-secondary to-primary p-5
             rounded-b-3xl rounded-br-3xl"
 			type="submit">Sign In!</button>

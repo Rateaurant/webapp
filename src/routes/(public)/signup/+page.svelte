@@ -26,6 +26,7 @@
 			</div>
 		</div>
 		<button
+			aria-label="Sign up to Rateaurant"
 			class="bg-gradient-to-r from-secondary to-primary p-5
             rounded-b-3xl rounded-br-3xl"
 			type="submit">Sign Up!</button>
