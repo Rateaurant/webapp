@@ -1,10 +1,8 @@
 <script lang="ts">
 	import '../../app.css';
-	import { page } from '$app/stores';
 </script>
 
-<body
-	class={`bg-dark-25 text-whitetext font-montserrat ${$page.url.pathname.substr($page.url.pathname.lastIndexOf('/') + 1) != 'contact' ? 'glitter' : ''}`}>
+<body class="bg-dark-25 text-whitetext font-montserrat">
 	<div aria-label="Header" class="flex justify-between items-center m-16">
 		<div aria-label="Navigation" class="flex gap-20 text-4xl justify-between">
 			<a href="/about" aria-label="About us">About us</a>
@@ -30,11 +28,9 @@
 <style>
 	body {
 		overflow-x: hidden;
+		background-image: url('/background.svg');
 		background-repeat: no-repeat;
 		background-attachment: fixed;
 		background-size: 100% 100%;
-	}
-	.glitter {
-		background-image: url('/background.svg');
 	}
 </style>
