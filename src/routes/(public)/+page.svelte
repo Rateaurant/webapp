@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 	import logo from '$lib/logo.svg';
 	import helpIceCream from '$lib/help-icecream.svg';
 </script>
