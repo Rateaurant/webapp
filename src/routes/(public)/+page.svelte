@@ -10,10 +10,9 @@
 </div>
 
 <!-- https://stackoverflow.com/questions/67150736/tailwind-background-gradient-transition -->
-<div
-	id="chat"
+<img
 	aria-label="Gemini Chat Help"
 	class="absolute bg-dark-50 rounded-full bottom-0 right-0 mr-5 mb-5
-	from-primary to-secondary hover:bg-gradient-to-r hover:cursor-pointer transition-all duration-500">
-	<img src={helpIceCream} alt="Chat" />
-</div>
+	from-primary to-secondary hover:bg-gradient-to-r hover:cursor-pointer transition-all duration-500"
+	src={helpIceCream}
+	alt="Chat" />
