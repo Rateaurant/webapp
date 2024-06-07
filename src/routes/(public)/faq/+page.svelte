@@ -17,8 +17,10 @@
 </script>
 
 <main class="flex flex-col gap-20 items-center">
-	<img src={logo} alt="Rateaurant Logo" width={500} />
-	<div class="flex flex-col w-[40%] gap-5 mb-20">
+	<img aria-label="Branding" src={logo} alt="Rateaurant Logo" width={500} />
+	<div
+		aria-label="Frequently Asked Questions list"
+		class="flex flex-col w-[40%] gap-5 mb-20">
 		{#each data as item}
 			<FaQuestion question={item[0]} answer={item[1]} />
 		{/each}

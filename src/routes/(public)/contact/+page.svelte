@@ -55,14 +55,14 @@
 </script>
 
 <main class="flex flex-col gap-20 items-center">
-	<img src={logo} alt="Rateaurant Logo" width={500} />
+	<img aria-label="Branding" src={logo} alt="Rateaurant Logo" width={500} />
 	<div class="text-8xl text-center" aria-label="Founders">Founders</div>
 	<div
 		class="flex justify-evenly w-screen"
 		aria-label="List of founders and their socials">
 		{#each data as item}
 			<div class="flex flex-col items-center gap-16" aria-label="Founder Data">
-				<div class="text-5xl" aria-label={`Founder Name - ${item.name}`}>
+				<div class="text-5xl" aria-label={`Founder - ${item.name}`}>
 					{item.name}
 				</div>
 				<div class="socials flex gap-5 items-center flex-wrap justify-center">

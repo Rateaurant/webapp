@@ -4,7 +4,7 @@
 
 <body class="bg-dark-25 text-whitetext font-montserrat">
 	<div
-		aria-label="Header"
+		aria-label="Navbar"
 		class="flex justify-between items-center m-4 ml-8 mr-8">
 		<div aria-label="Navigation" class="flex gap-16 text-2xl justify-between">
 			<a class="hover-underline-animation" href="/about" aria-label="About us"
@@ -16,7 +16,7 @@
 			<a
 				class="hover-underline-animation"
 				href="/faq"
-				aria-label="Frequently asked questions">FAQs</a>
+				aria-label="Frequently Asked Questions">FAQs</a>
 		</div>
 		<div
 			aria-label="Authentication"
@@ -24,10 +24,12 @@
 			<a
 				class="border p-2 hover:text-dark-25 hover:bg-whitetext
 				transition-all duration-200"
+				aria-label="Sign In"
 				href="/signin">Sign In</a>
 			<a
 				class="border p-2 hover:text-dark-25 hover:bg-whitetext
 				transition-all duration-200"
+				aria-label="Sign Up"
 				href="/signup">Sign Up</a>
 		</div>
 	</div>

@@ -6,7 +6,7 @@
 </script>
 
 <button
-	aria-label="Click to show the answer"
+	aria-label={`Click to ${showAnswer ? 'hide' : 'show'} the answer`}
 	class="bg-dark-20 text-center p-5 rounded-l flex flex-col gap-5"
 	on:click={() => (showAnswer = !showAnswer)}>
 	<div class="text-xl">{question}</div>
