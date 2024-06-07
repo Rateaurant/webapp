@@ -58,7 +58,7 @@
 		height: 2px;
 		bottom: 0;
 		left: 0;
-		background-color: #ffffea;
+		background-color: theme('colors.whitetext');
 		transform-origin: bottom right;
 		transition: transform 0.2s ease-out;
 	}
