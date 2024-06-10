@@ -1,4 +1,6 @@
 <script lang="ts">
+	import Anchor from './Anchor.svelte';
+
 	export let platform:
 		| 'site'
 		| 'github'
@@ -14,6 +16,6 @@
 	const src = `/social/${platform}/${style}.png`;
 </script>
 
-<a href={link} aria-label={platform}>
-	<img {src} alt={platform} aria-label={platform} width={64} height={64} />
-</a>
+<Anchor href={link} label={platform}>
+	<img {src} alt={platform} aria-label={platform} width={32} height={32} />
+</Anchor>

@@ -1,4 +1,5 @@
 <script lang="ts">
+	import Anchor from '$lib/Anchor.svelte';
 	import '../../app.css';
 </script>
 
@@ -7,30 +8,24 @@
 		aria-label="Navbar"
 		class="flex justify-between items-center m-4 ml-8 mr-8">
 		<div aria-label="Navigation" class="flex gap-16 text-2xl justify-between">
-			<a class="hover-underline-animation" href="/about" aria-label="About us"
-				>About us</a>
-			<a
-				class="hover-underline-animation"
-				href="/contact"
-				aria-label="Contact us">Contact us</a>
-			<a
-				class="hover-underline-animation"
-				href="/faq"
-				aria-label="Frequently Asked Questions">FAQs</a>
+			<Anchor href="/about" label="About us"
+				><div class="hover-underline-animation">About us</div></Anchor>
+			<Anchor href="/contact" label="Contact us"
+				><div class="hover-underline-animation">Contact us</div></Anchor>
+			<Anchor href="/faq" label="Frequently Asked Questions"
+				><div class="hover-underline-animation">FAQs</div></Anchor>
 		</div>
-		<div
-			aria-label="Authentication"
-			class="flex gap-12 text-xl justify-between">
-			<a
+		<div aria-label="Authentication" class="flex gap-6 text-xl justify-between">
+			<Anchor
 				class="border p-2 hover:text-dark-25 hover:bg-whitetext
 				transition-all duration-200"
-				aria-label="Sign In"
-				href="/signin">Sign In</a>
-			<a
+				label="Sign In"
+				href="/signin">Sign In</Anchor>
+			<Anchor
 				class="border p-2 hover:text-dark-25 hover:bg-whitetext
 				transition-all duration-200"
-				aria-label="Sign Up"
-				href="/signup">Sign Up</a>
+				label="Sign Up"
+				href="/signup">Sign Up</Anchor>
 		</div>
 	</div>
 	<slot />

@@ -54,15 +54,15 @@
 	}
 </script>
 
-<main class="flex flex-col gap-20 items-center">
+<main class="flex flex-col gap-36 items-center">
 	<img aria-label="Branding" src={logo} alt="Rateaurant Logo" width={500} />
 	<div class="text-8xl text-center" aria-label="Founders">Founders</div>
 	<div
 		class="flex justify-evenly w-screen"
 		aria-label="List of founders and their socials">
 		{#each data as item}
-			<div class="flex flex-col items-center gap-16" aria-label="Founder Data">
-				<div class="text-5xl" aria-label={`Founder - ${item.name}`}>
+			<div class="flex flex-col items-center gap-8" aria-label="Founder Data">
+				<div class="text-3xl" aria-label={`Founder - ${item.name}`}>
 					{item.name}
 				</div>
 				<div class="socials flex gap-5 items-center flex-wrap justify-center">
@@ -78,6 +78,11 @@
 <style>
 	.socials {
 		--socialsPerRow: 3;
-		width: calc(64px * (var(--socialsPerRow) + 1));
+		--widthOfSocial: 32px;
+		--gap: 1.25rem;
+		width: calc(
+			var(--widthOfSocial) * var(--socialsPerRow) + var(--gap) *
+				(var(--socialsPerRow) - 1)
+		);
 	}
 </style>

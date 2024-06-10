@@ -1,4 +1,5 @@
 <script>
+	import Button from '$lib/Button.svelte';
 	import logo from '$lib/logo-vertical.svg';
 
 	let stateForAria = false;
@@ -8,8 +9,8 @@
 	<img aria-label="Branding" src={logo} alt="Rateaurant Logo" width={500} />
 	<form
 		aria-label="Sign Up form"
-		class="flex flex-col bg-dark-20 rounded-3xl text-3xl w-[40%]
-        drop-shadow-3xl mb-10">
+		class="flex flex-col bg-dark-20 rounded-3xl text-xl
+        drop-shadow-3xl mb-10 w-1/4">
 		<div class="flex flex-col gap-10 p-10">
 			<input
 				aria-label="Email input"
@@ -23,6 +24,7 @@
 				placeholder="Password" />
 			<div class="flex w-full justify-between items-center">
 				<label
+					class="text-center"
 					for="restaurant-account"
 					aria-label={stateForAria
 						? 'Check for Restaurant Accounts'
@@ -35,10 +37,10 @@
 					type="checkbox" />
 			</div>
 		</div>
-		<button
-			aria-label="Sign up to Rateaurant!"
+		<Button
+			label="Sign up to Rateaurant!"
 			class="bg-gradient-to-r from-secondary to-primary p-5
-            rounded-b-3xl rounded-br-3xl"
-			type="submit">Sign Up!</button>
+            rounded-b-3xl text-3xl hover:scale-125 transition-all duration-200 ease-out rounded-br-3xl"
+			type="submit">Sign Up!</Button>
 	</form>
 </main>
