@@ -1,6 +1,5 @@
 <script lang="ts">
 	import SocialLink from '$lib/SocialLink.svelte';
-	import logo from '$lib/logo-vertical.svg';
 
 	let data: {
 		name: string;
@@ -54,26 +53,23 @@
 	}
 </script>
 
-<main class="flex flex-col gap-36 items-center">
-	<img aria-label="Branding" src={logo} alt="Rateaurant Logo" width={500} />
-	<div class="text-8xl text-center" aria-label="Founders">Founders</div>
-	<div
-		class="flex justify-evenly w-screen"
-		aria-label="List of founders and their socials">
-		{#each data as item}
-			<div class="flex flex-col items-center gap-8" aria-label="Founder Data">
-				<div class="text-3xl" aria-label={`Founder - ${item.name}`}>
-					{item.name}
-				</div>
-				<div class="socials flex gap-5 items-center flex-wrap justify-center">
-					{#each items(item.links) as social}
-						<SocialLink platform={social[0]} link={social[1]} style="white" />
-					{/each}
-				</div>
+<div class="text-8xl text-center" aria-label="Founders">Founders</div>
+<div
+	class="flex justify-evenly w-screen"
+	aria-label="List of founders and their socials">
+	{#each data as item}
+		<div class="flex flex-col items-center gap-8" aria-label="Founder Data">
+			<div class="text-3xl" aria-label={`Founder - ${item.name}`}>
+				{item.name}
 			</div>
-		{/each}
-	</div>
-</main>
+			<div class="socials flex gap-5 items-center flex-wrap justify-center">
+				{#each items(item.links) as social}
+					<SocialLink platform={social[0]} link={social[1]} style="white" />
+				{/each}
+			</div>
+		</div>
+	{/each}
+</div>
 
 <style>
 	.socials {
