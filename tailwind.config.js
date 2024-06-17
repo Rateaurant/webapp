@@ -11,7 +11,8 @@ export default {
         20: '#202020',
         25: '#252525',
         50: '#505050'
-      }
+      },
+      green: '#52C535'
     },
     extend: {
       fontFamily: {
