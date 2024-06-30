@@ -1,10 +1,10 @@
 <script lang="ts">
-	import Alert from '$lib/Alert.svelte';
-	import Anchor from '$lib/Anchor.svelte';
-	import Button from '$lib/Button.svelte';
+	import Alert from '$lib/components/Alert.svelte';
+	import Anchor from '$lib/components/Anchor.svelte';
+	import Button from '$lib/components/Button.svelte';
+	import Captcha from '$lib/components/Captcha.svelte';
 	import { redirect } from '@sveltejs/kit';
 
-	const key = '6LdFVfMpAAAAAMqoza7kjGMlK2khVID5qkD-gsF6';
 	const formData = {
 		email: '',
 		username: '',
@@ -12,39 +12,24 @@
 	};
 
 	let invaild_cred_alert = false;
-
-	// todo: is there a way to make sveltekit assume grecaptcha
-	// this code works, it doesn't crash
-	function triggerCaptcha(e: Event) {
-		grecaptcha.ready(() => {
-			grecaptcha.execute(key, { action: 'submit' }).then(async (t: string) => {
-				// captcha success
-				console.log(t);
-				const response = await fetch(
-					`https://api.rateaurant.vercel.app/login/user`,
-					{
-						method: 'POST',
-						body: new URLSearchParams([
-							// TODO: CHECK THIS AFTER SG IMPLEMENTS THIS
-							// the first part of the string was first checked with the backend code to make sure they use the same labels
-							['username', formData.username],
-							['email', formData.email],
-							['password', formData.password],
-						]),
-					},
-				);
-				redirect(302, '/temp');
-			});
-		});
-	}
+	let captcha: Captcha;
 </script>
 
-<svelte:head>
-	<script
-		src="https://www.google.com/recaptcha/api.js?render={key}"
-		async
-		defer></script>
-</svelte:head>
+<Captcha
+	bind:this={captcha}
+	success={async () => {
+		await fetch(`https://api.rateaurant.vercel.app/login/user`, {
+			method: 'POST',
+			body: new URLSearchParams([
+				// TODO: CHECK THIS AFTER SG IMPLEMENTS THIS
+				// the first part of the string was first checked with the backend code to make sure they use the same labels
+				['username', formData.username],
+				['email', formData.email],
+				['password', formData.password],
+			]),
+		});
+		redirect(302, '/temp');
+	}} />
 
 <!-- mb-36 prevents the signup/signin button from getting cut out on hover -->
 <form
@@ -77,5 +62,5 @@
 		class="bg-gradient-to-r from-secondary to-primary p-5
 		rounded-b-3xl text-3xl hover:scale-125 transition-all duration-200 ease-out rounded-br-3xl"
 		type="submit"
-		handler={triggerCaptcha}>Sign In!</Button>
+		handler={() => captcha.trigger()}>Sign In!</Button>
 </form>

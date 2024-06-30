@@ -1,13 +1,13 @@
 <script lang="ts">
-	import Anchor from '$lib/Anchor.svelte';
-	import Button from '$lib/Button.svelte';
+	import Anchor from '$lib/components/Anchor.svelte';
+	import Button from '$lib/components/Button.svelte';
+	import Alert from '$lib/components/Alert.svelte';
 	import { redirect } from '@sveltejs/kit';
-	import Alert from '$lib/Alert.svelte';
+	import Captcha from '$lib/components/Captcha.svelte';
 
 	const EMAIL_ALREADY_EXISTS = 406;
 	const REGISTERED = 201;
 
-	const key = '6LdFVfMpAAAAAMqoza7kjGMlK2khVID5qkD-gsF6';
 	const formData = {
 		email: '',
 		username: '',
@@ -15,42 +15,29 @@
 	};
 
 	let email_already_exists_alert = false;
-
-	// todo: is there a way to make sveltekit assume grecaptcha
-	// this code works, it doesn't crash
-	function triggerCaptcha(e: Event) {
-		grecaptcha.ready(() => {
-			grecaptcha.execute(key, { action: 'submit' }).then(async (t: string) => {
-				// captcha success
-				console.log(t);
-				const response = await fetch(
-					`https://api.rateaurant.vercel.app/register/user`,
-					{
-						method: 'POST',
-						body: new URLSearchParams([
-							// the first part of the string was first checked with the backend code to make sure they use the same labels
-							['username', formData.username],
-							['email', formData.email],
-							['password', formData.password],
-						]),
-					},
-				);
-				if (response.status == EMAIL_ALREADY_EXISTS) {
-					email_already_exists_alert = true;
-				} else if (response.status == REGISTERED) {
-					redirect(302, '/temp');
-				}
-			});
-		});
-	}
+	let captcha: Captcha;
 </script>
 
-<svelte:head>
-	<script
-		src="https://www.google.com/recaptcha/api.js?render={key}"
-		async
-		defer></script>
-</svelte:head>
+<Captcha
+	success={async () => {
+		const response = await fetch(
+			`https://api.rateaurant.vercel.app/register/user`,
+			{
+				method: 'POST',
+				body: new URLSearchParams([
+					// the first part of the string was first checked with the backend code to make sure they use the same labels
+					['username', formData.username],
+					['email', formData.email],
+					['password', formData.password],
+				]),
+			},
+		);
+		if (response.status == EMAIL_ALREADY_EXISTS) {
+			email_already_exists_alert = true;
+		} else if (response.status == REGISTERED) {
+			redirect(302, '/temp');
+		}
+	}} />
 
 <!-- mb-36 prevents the signup/signin button from getting cut out on hover -->
 <form
@@ -91,5 +78,5 @@
 		class="bg-gradient-to-r from-secondary to-primary p-5
 		rounded-b-3xl text-3xl hover:scale-125 transition-all duration-200 ease-out rounded-br-3xl"
 		type="submit"
-		handler={triggerCaptcha}>Sign Up!</Button>
+		handler={() => captcha.trigger()}>Sign Up!</Button>
 </form>

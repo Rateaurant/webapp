@@ -1,5 +1,5 @@
 <script>
-	import FaQuestion from '$lib/FAQuestion.svelte';
+	import FaQuestion from '$lib/components/FAQuestion.svelte';
 
 	// TODO Actual questions
 	const data = [

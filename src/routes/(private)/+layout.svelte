@@ -1,5 +1,5 @@
 <script lang="ts">
-	import Anchor from '$lib/Anchor.svelte';
+	import Anchor from '$lib/components/Anchor.svelte';
 	import '../../app.css';
 </script>
 
