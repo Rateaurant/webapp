@@ -19,6 +19,7 @@
 </script>
 
 <Captcha
+	bind:this={captcha}
 	success={async () => {
 		const response = await fetch(
 			`https://api.rateaurant.vercel.app/register/user`,
