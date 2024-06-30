@@ -1,9 +1,9 @@
 <script lang="ts">
-	import Anchor from '$lib/components/Anchor.svelte';
-	import Button from '$lib/components/Button.svelte';
-	import Alert from '$lib/components/Alert.svelte';
+	import Anchor from '$components/Anchor.svelte';
+	import Button from '$components/Button.svelte';
+	import Alert from '$components/Alert.svelte';
 	import { redirect } from '@sveltejs/kit';
-	import Captcha from '$lib/components/Captcha.svelte';
+	import Captcha from '$components/Captcha.svelte';
 
 	const EMAIL_ALREADY_EXISTS = 406;
 	const REGISTERED = 201;

@@ -1,7 +1,7 @@
 <script lang="ts">
-	import Alert from '$lib/components/Alert.svelte';
-	import Button from '$lib/components/Button.svelte';
-	import Captcha from '$lib/components/Captcha.svelte';
+	import Alert from '$components/Alert.svelte';
+	import Button from '$components/Button.svelte';
+	import Captcha from '$components/Captcha.svelte';
 	import { redirect } from '@sveltejs/kit';
 
 	const EMAIL_ALREADY_EXISTS = 406;

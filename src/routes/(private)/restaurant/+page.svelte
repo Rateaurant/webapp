@@ -1,8 +1,8 @@
 <script lang="ts">
-	import Anchor from '$lib/components/Anchor.svelte';
-	import MenuItem from '$lib/components/MenuItem.svelte';
-	import Rating from '$lib/components/Rating.svelte';
-	import settings from '$lib/components/settings.svg';
+	import Anchor from '$components/Anchor.svelte';
+	import MenuItem from '$components/MenuItem.svelte';
+	import Rating from '$components/Rating.svelte';
+	import settings from '$assets/settings.svg';
 
 	import burgerImg from '$lib/temp_menu/1.png';
 	import noodleImg from '$lib/temp_menu/2.png';

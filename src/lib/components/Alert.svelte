@@ -1,5 +1,5 @@
 <script lang="ts">
-	import alert from '$lib/assets/alert.svg';
+	import alert from '$assets/alert.svg';
 
 	export let message: string | undefined;
 	export let trigger: boolean | undefined;

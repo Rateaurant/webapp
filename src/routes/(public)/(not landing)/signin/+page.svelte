@@ -1,8 +1,8 @@
 <script lang="ts">
-	import Alert from '$lib/components/Alert.svelte';
-	import Anchor from '$lib/components/Anchor.svelte';
-	import Button from '$lib/components/Button.svelte';
-	import Captcha from '$lib/components/Captcha.svelte';
+	import Alert from '$components/Alert.svelte';
+	import Anchor from '$components/Anchor.svelte';
+	import Button from '$components/Button.svelte';
+	import Captcha from '$components/Captcha.svelte';
 	import { redirect } from '@sveltejs/kit';
 
 	const formData = {

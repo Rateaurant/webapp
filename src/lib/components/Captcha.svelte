@@ -19,5 +19,6 @@
 	<script
 		src="https://www.google.com/recaptcha/api.js?render={PUBLIC_SITE_KEY}"
 		async
-		defer></script>
+		defer>
+	</script>
 </svelte:head>

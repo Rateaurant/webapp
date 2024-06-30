@@ -1,6 +1,6 @@
 <script>
-	import Anchor from '$lib/components/Anchor.svelte';
-	import logo from '$lib/assets/logo-vertical.svg';
+	import Anchor from '$components/Anchor.svelte';
+	import logo from '$assets/logo-vertical.svg';
 </script>
 
 <main class="flex flex-col gap-16 items-center">

@@ -1,6 +1,6 @@
 <script lang="ts">
-	import logo from '$lib/assets/logo.svg';
-	import helpIceCream from '$lib/assets/help-icecream.svg';
+	import logo from '$assets/logo.svg';
+	import helpIceCream from '$assets/help-icecream.svg';
 </script>
 
 <div

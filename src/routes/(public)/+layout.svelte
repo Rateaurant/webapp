@@ -1,6 +1,5 @@
 <script lang="ts">
-	import { PUBLIC_SITE_KEY } from '$env/static/public';
-	import Anchor from '$lib/components/Anchor.svelte';
+	import Anchor from '$components/Anchor.svelte';
 	import '../../app.css';
 </script>
 
