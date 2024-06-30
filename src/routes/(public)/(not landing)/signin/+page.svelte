@@ -73,7 +73,7 @@
 		<Alert message="Invalid Credentials" trigger={invaild_cred_alert} />
 	</div>
 	<Button
-		label="Sign up to Rateaurant!"
+		label="Sign in to Rateaurant!"
 		class="bg-gradient-to-r from-secondary to-primary p-5
 		rounded-b-3xl text-3xl hover:scale-125 transition-all duration-200 ease-out rounded-br-3xl"
 		type="submit"
