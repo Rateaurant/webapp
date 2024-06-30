@@ -69,7 +69,7 @@
 		<Anchor
 			href="/owner-signup"
 			label="Go here for making this a Restaurant Account"
-			class="text-center">Is a Restaurant Account?</Anchor>
+			class="text-center">Do you own a restaurant</Anchor>
 		<Alert
 			message={'Email already in use'}
 			trigger={email_already_exists_alert} />
@@ -77,7 +77,7 @@
 	<Button
 		label="Sign up to Rateaurant!"
 		class="bg-gradient-to-r from-secondary to-primary p-5
-		rounded-b-3xl text-3xl hover:scale-125 transition-all duration-200 ease-out rounded-br-3xl"
+		rounded-b-3xl text-3xl hover:text-4xl transition-all duration-200 ease-out rounded-br-3xl"
 		type="submit"
 		handler={() => captcha.trigger()}>Sign Up!</Button>
 </form>
