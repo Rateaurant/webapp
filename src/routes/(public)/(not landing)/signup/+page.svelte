@@ -69,7 +69,7 @@
 		<Anchor
 			href="/owner-signup"
 			label="Go here for making this a Restaurant Account"
-			class="text-center">Do you own a restaurant</Anchor>
+			class="text-center">Do you own a restaurant?</Anchor>
 		<Alert
 			message={'Email already in use'}
 			trigger={email_already_exists_alert} />
