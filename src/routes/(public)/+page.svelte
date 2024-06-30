@@ -5,8 +5,8 @@
 
 <div
 	aria-label="Branding"
-	class="absolute p-4 text-center transform -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2">
-	<img src={logo} alt="Rateaurant Logo" width={500} />
+	class="absolute p-4 text-center transform -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2 w-[100%] sm:w-[500px]">
+	<img src={logo} alt="Rateaurant Logo" />
 </div>
 
 <!-- https://stackoverflow.com/questions/67150736/tailwind-background-gradient-transition -->

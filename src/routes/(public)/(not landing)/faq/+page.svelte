@@ -17,7 +17,7 @@
 
 <div
 	aria-label="Frequently Asked Questions list"
-	class="flex flex-col w-[40%] gap-5 mb-20">
+	class="flex flex-col w-[100%] md:w-[80%] lg:w-[40%] gap-5 mb-20">
 	{#each data as item}
 		<FaQuestion question={item[0]} answer={item[1]} />
 	{/each}

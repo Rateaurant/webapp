@@ -114,7 +114,6 @@
 				<Anchor
 					label="Settings"
 					href="/restaurant/menu"
-					mode="onclick"
 					class="bg-dark-25 rounded-sm p-2">
 					<img src={settings} alt="Settings Cog" width={15} />
 				</Anchor>

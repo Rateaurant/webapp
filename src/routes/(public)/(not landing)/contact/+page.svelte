@@ -53,12 +53,16 @@
 	}
 </script>
 
-<div class="text-8xl text-center" aria-label="Founders">Founders</div>
+<div class="text-5xl md:text-8xl text-center" aria-label="Founders">
+	Founders
+</div>
 <div
-	class="flex justify-evenly w-screen"
+	class="flex flex-col gap-8 md:gap-0 mb-10 md:flex-row justify-evenly w-screen"
 	aria-label="List of founders and their socials">
 	{#each data as item}
-		<div class="flex flex-col items-center gap-8" aria-label="Founder Data">
+		<div
+			class="flex flex-col items-center gap-3 md:gap-8"
+			aria-label="Founder Data">
 			<div class="text-3xl" aria-label={`Founder - ${item.name}`}>
 				{item.name}
 			</div>
