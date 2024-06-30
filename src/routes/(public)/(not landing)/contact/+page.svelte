@@ -63,7 +63,7 @@
 		<div
 			class="flex flex-col items-center gap-3 md:gap-8"
 			aria-label="Founder Data">
-			<div class="text-3xl" aria-label={`Founder - ${item.name}`}>
+			<div class="text-3xl text-center" aria-label={`Founder - ${item.name}`}>
 				{item.name}
 			</div>
 			<div class="socials flex gap-5 items-center flex-wrap justify-center">

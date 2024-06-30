@@ -1,25 +1,68 @@
 <script lang="ts">
 	import Anchor from '$components/Anchor.svelte';
+	import Button from '$components/Button.svelte';
+	import menu from '$assets/menu.svg';
 	import '../../app.css';
+
+	let width: number;
+	let is_xs: boolean;
+	let showNavModel: boolean = false;
+
+	let turnOffModel = () => {
+		showNavModel = false;
+	};
+	$: is_xs = width < 420;
 </script>
+
+<svelte:window bind:innerWidth={width} />
 
 <body class="flex flex-col xs:block bg-dark-25 text-whitetext font-montserrat">
 	<div
 		aria-label="Navbar"
 		class="flex justify-between self-center items-center m-4 ml-0 xs:ml-8 mr-0 xs:mr-8 w-[90%] xs:w-auto">
-		<div
-			aria-label="Navigation"
-			class="flex gap-2 xs:gap-5 sm:gap-16 text-sm sm:text-lg md:text-2xl justify-between text-center">
-			<Anchor href="/about" label="About us" class="content-center"
-				><div class="hover-underline-animation">About us</div></Anchor>
-			<Anchor href="/contact" label="Contact us" class="content-center"
-				><div class="hover-underline-animation">Contact us</div></Anchor>
-			<Anchor
-				href="/faq"
-				label="Frequently Asked Questions"
-				class="content-center"
-				><div class="hover-underline-animation">FAQs</div></Anchor>
-		</div>
+		{#if is_xs}
+			<Button handler={() => (showNavModel = !showNavModel)}>
+				<img src={menu} alt="Open Navigation Items" />
+			</Button>
+			{#if showNavModel}
+				<div
+					class="absolute flex flex-col bg-dark-20 p-4 rounded-xl translate-x-10 translate-y-10"
+					aria-label="Navgation Model">
+					<Anchor
+						handler={turnOffModel}
+						href="/about"
+						label="About us"
+						class="content-center"
+						><div class="hover-underline-animation">About us</div></Anchor>
+					<Anchor
+						handler={turnOffModel}
+						href="/contact"
+						label="Contact us"
+						class="content-center"
+						><div class="hover-underline-animation">Contact us</div></Anchor>
+					<Anchor
+						handler={turnOffModel}
+						href="/faq"
+						label="Frequently Asked Questions"
+						class="content-center"
+						><div class="hover-underline-animation">FAQs</div></Anchor>
+				</div>
+			{/if}
+		{:else}
+			<div
+				aria-label="Navigation"
+				class="flex gap-2 xs:gap-5 sm:gap-16 text-sm sm:text-lg md:text-2xl justify-between text-center">
+				<Anchor href="/about" label="About us" class="content-center"
+					><div class="hover-underline-animation">About us</div></Anchor>
+				<Anchor href="/contact" label="Contact us" class="content-center"
+					><div class="hover-underline-animation">Contact us</div></Anchor>
+				<Anchor
+					href="/faq"
+					label="Frequently Asked Questions"
+					class="content-center"
+					><div class="hover-underline-animation">FAQs</div></Anchor>
+			</div>
+		{/if}
 		<div
 			aria-label="Authentication"
 			class="flex gap-2 xs:gap-3 sm:gap-6 text-xs sm:text-base md:text-xl justify-between text-center">
