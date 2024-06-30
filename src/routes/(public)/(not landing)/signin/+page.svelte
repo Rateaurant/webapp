@@ -4,6 +4,7 @@
 	import Button from '$components/Button.svelte';
 	import Captcha from '$components/Captcha.svelte';
 	import { redirect } from '@sveltejs/kit';
+	import { onMount } from 'svelte';
 
 	const formData = {
 		email: '',
@@ -11,8 +12,12 @@
 		password: '',
 	};
 
-	let invaild_cred_alert = false;
+	let alert: Alert;
 	let captcha: Captcha;
+
+	onMount(() => {
+		alert.trigger('Test alert');
+	});
 </script>
 
 <Captcha
@@ -28,7 +33,13 @@
 				['password', formData.password],
 			]),
 		});
+		// if (already exists) {
+		// alert.trigger('Invalid Credentials')
+		// }
 		redirect(302, '/temp');
+	}}
+	failure={() => {
+		alert.trigger('Captcha Failed');
 	}} />
 
 <!-- mb-36 prevents the signup/signin button from getting cut out on hover -->
@@ -55,7 +66,7 @@
 		<!-- TODO href -->
 		<Anchor href="/" label="Did you forget your password" class="text-center"
 			>Forgot password</Anchor>
-		<Alert message="Invalid Credentials" trigger={invaild_cred_alert} />
+		<Alert bind:this={alert} />
 	</div>
 	<Button
 		label="Sign in to Rateaurant!"

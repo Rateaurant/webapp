@@ -6,10 +6,10 @@
 
 	let width: number;
 	let is_xs: boolean;
-	let showNavModel: boolean = false;
+	let showNavModal: boolean = false;
 
-	let turnOffModel = () => {
-		showNavModel = false;
+	let turnOffModal = () => {
+		showNavModal = false;
 	};
 	$: is_xs = width < 420;
 </script>
@@ -21,27 +21,27 @@
 		aria-label="Navbar"
 		class="flex justify-between self-center items-center m-4 ml-0 xs:ml-8 mr-0 xs:mr-8 w-[90%] xs:w-auto">
 		{#if is_xs}
-			<Button handler={() => (showNavModel = !showNavModel)}>
+			<Button handler={() => (showNavModal = !showNavModal)}>
 				<img src={menu} alt="Open Navigation Items" />
 			</Button>
-			{#if showNavModel}
+			{#if showNavModal}
 				<div
 					class="absolute flex flex-col bg-dark-20 p-4 rounded-xl translate-x-10 translate-y-10"
-					aria-label="Navgation Model">
+					aria-label="Navgation Modal">
 					<Anchor
-						handler={turnOffModel}
+						handler={turnOffModal}
 						href="/about"
 						label="About us"
 						class="content-center"
 						><div class="hover-underline-animation">About us</div></Anchor>
 					<Anchor
-						handler={turnOffModel}
+						handler={turnOffModal}
 						href="/contact"
 						label="Contact us"
 						class="content-center"
 						><div class="hover-underline-animation">Contact us</div></Anchor>
 					<Anchor
-						handler={turnOffModel}
+						handler={turnOffModal}
 						href="/faq"
 						label="Frequently Asked Questions"
 						class="content-center"

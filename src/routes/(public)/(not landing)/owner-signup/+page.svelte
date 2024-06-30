@@ -13,7 +13,7 @@
 		password: '',
 	};
 
-	let email_already_exists_alert = false;
+	let alert: Alert;
 	let captcha: Captcha;
 </script>
 
@@ -25,7 +25,6 @@
 			{
 				method: 'POST',
 				body: new URLSearchParams([
-					// the first part of the string was first checked with the backend code to make sure they use the same labels
 					['username', formData.username],
 					['email', formData.email],
 					['password', formData.password],
@@ -33,13 +32,14 @@
 			},
 		);
 		if (response.status == EMAIL_ALREADY_EXISTS) {
-			email_already_exists_alert = true;
+			alert.trigger('Email already in use');
 		} else if (response.status == REGISTERED) {
 			redirect(302, '/temp');
 		}
 	}}
-	failure={() => {}} />
-
+	failure={() => {
+		alert.trigger('Captcha Failed');
+	}} />
 <!-- mb-36 prevents the signup/signin button from getting cut out on hover -->
 <form
 	aria-label="Sign Up form"
@@ -66,9 +66,7 @@
 			type="password"
 			class="bg-dark-15 rounded-xl text-center p-3"
 			placeholder="Password" />
-		<Alert
-			message={'Email already in use'}
-			trigger={email_already_exists_alert} />
+		<Alert bind:this={alert} />
 	</div>
 	<Button
 		label="Sign up to Rateaurant!"

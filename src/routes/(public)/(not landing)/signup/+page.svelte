@@ -14,7 +14,7 @@
 		password: '',
 	};
 
-	let email_already_exists_alert = false;
+	let alert: Alert;
 	let captcha: Captcha;
 </script>
 
@@ -34,10 +34,13 @@
 			},
 		);
 		if (response.status == EMAIL_ALREADY_EXISTS) {
-			email_already_exists_alert = true;
+			alert.trigger('Email Already in use');
 		} else if (response.status == REGISTERED) {
 			redirect(302, '/temp');
 		}
+	}}
+	failure={() => {
+		alert.trigger('Captcha Failed');
 	}} />
 
 <!-- mb-36 prevents the signup/signin button from getting cut out on hover -->
@@ -70,9 +73,7 @@
 			href="/owner-signup"
 			label="Go here for making this a Restaurant Account"
 			class="text-center">Do you own a restaurant?</Anchor>
-		<Alert
-			message={'Email already in use'}
-			trigger={email_already_exists_alert} />
+		<Alert bind:this={alert} />
 	</div>
 	<Button
 		label="Sign up to Rateaurant!"
