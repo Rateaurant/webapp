@@ -2,11 +2,14 @@
 	import Anchor from '$components/Anchor.svelte';
 	import Button from '$components/Button.svelte';
 	import Alert from '$components/Alert.svelte';
-	import { redirect } from '@sveltejs/kit';
 	import Captcha from '$components/Captcha.svelte';
-
-	const EMAIL_ALREADY_EXISTS = 406;
-	const REGISTERED = 201;
+	import {
+		formDataToBody,
+		HTTPCodes,
+		request,
+		ServerEndPoints,
+	} from '$scripts/server';
+	import { redirect } from '@sveltejs/kit';
 
 	const formData = {
 		email: '',
@@ -21,23 +24,13 @@
 <Captcha
 	bind:this={captcha}
 	success={async () => {
-		const response = await fetch(
-			`https://api.rateaurant.vercel.app/register/user`,
-			{
-				method: 'POST',
-				body: new URLSearchParams([
-					// the first part of the string was first checked with the backend code to make sure they use the same labels
-					['username', formData.username],
-					['email', formData.email],
-					['password', formData.password],
-				]),
-			},
-		);
-		if (response.status == EMAIL_ALREADY_EXISTS) {
-			alert.trigger('Email Already in use');
-		} else if (response.status == REGISTERED) {
-			redirect(302, '/temp');
-		}
+		(await request(ServerEndPoints.CustomerSignUp, formDataToBody(formData)))
+			.on(HTTPCodes.NOT_ACCEPTABLE, (_) => {
+				alert.trigger('Email Already in use');
+			})
+			.on(HTTPCodes.CREATED, (_) => {
+				redirect(302, '/temp');
+			});
 	}}
 	failure={() => {
 		alert.trigger('Captcha Failed');

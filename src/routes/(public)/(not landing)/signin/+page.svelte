@@ -3,6 +3,7 @@
 	import Anchor from '$components/Anchor.svelte';
 	import Button from '$components/Button.svelte';
 	import Captcha from '$components/Captcha.svelte';
+	import { request, ServerEndPoints, formDataToBody } from '$scripts/server';
 	import { redirect } from '@sveltejs/kit';
 	import { onMount } from 'svelte';
 
@@ -23,19 +24,7 @@
 <Captcha
 	bind:this={captcha}
 	success={async () => {
-		await fetch(`https://api.rateaurant.vercel.app/login/user`, {
-			method: 'POST',
-			body: new URLSearchParams([
-				// TODO: CHECK THIS AFTER SG IMPLEMENTS THIS
-				// the first part of the string was first checked with the backend code to make sure they use the same labels
-				['username', formData.username],
-				['email', formData.email],
-				['password', formData.password],
-			]),
-		});
-		// if (already exists) {
-		// alert.trigger('Invalid Credentials')
-		// }
+		await request(ServerEndPoints.UserLogin, formDataToBody(formData));
 		redirect(302, '/temp');
 	}}
 	failure={() => {
