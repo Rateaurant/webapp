@@ -1,6 +1,8 @@
-import { dev } from "$app/environment";
+import { dev } from '$app/environment';
 
-const SERVER_ADDRESS = dev ? 'http://127.0.0.1:5000' : 'https://api.rateaurant.vercel.app';
+const SERVER_ADDRESS = dev
+	? 'http://127.0.0.1:5000'
+	: 'https://api.rateaurant.vercel.app';
 
 // User data
 export const USERNAME_LABEL = 'username';
@@ -156,8 +158,8 @@ export async function request(
 		if (method == POST) {
 			response = await fetch(url, {
 				method,
-				body: objToBody(data)
-			})
+				body: objToBody(data),
+			});
 		} else if (method == GET) {
 			response = await fetch(url + objToParams(data));
 		} else {

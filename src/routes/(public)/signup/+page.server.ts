@@ -13,11 +13,13 @@ export const actions = {
 	default: async (event) => {
 		let response: ActionData = { success: true, msg: '' };
 		let formData = await event.request.formData();
-		(await request(ServerEndPoints.CustomerSignUp, null, {
-			email: formData.get(EMAIL_LABEL),
-			username: formData.get(USERNAME_LABEL),
-			password: formData.get(PASSWORD_LABEL)
-		}))
+		(
+			await request(ServerEndPoints.CustomerSignUp, null, {
+				email: formData.get(EMAIL_LABEL),
+				username: formData.get(USERNAME_LABEL),
+				password: formData.get(PASSWORD_LABEL),
+			})
+		)
 			.on(HTTPCodes.NOT_FOUND, (_) => {
 				throw error(404, 'Not Found');
 			})
@@ -31,7 +33,10 @@ export const actions = {
 				response = { success: true, msg: 'verify' };
 			})
 			.catch(() => {
-				response = { success: false, msg: 'Failed to communicate with the server' };
+				response = {
+					success: false,
+					msg: 'Failed to communicate with the server',
+				};
 			});
 		return response;
 	},

@@ -1,9 +1,5 @@
 import type { PageServerLoad } from './$types';
-import {
-	HTTPCodes,
-	ServerEndPoints,
-	request,
-} from '$scripts/server';
+import { HTTPCodes, ServerEndPoints, request } from '$scripts/server';
 import type { ActionData } from '$scripts/action';
 import { dev } from '$app/environment';
 import { SESSION_LABEL, WEEK } from '$scripts/cookie';

@@ -1,17 +1,25 @@
 import { dev } from '$app/environment';
 import type { ActionData } from '$scripts/action';
 import { SESSION_LABEL, WEEK } from '$scripts/cookie';
-import { EMAIL_LABEL, HTTPCodes, PASSWORD_LABEL, request, ServerEndPoints } from '$scripts/server';
+import {
+	EMAIL_LABEL,
+	HTTPCodes,
+	PASSWORD_LABEL,
+	request,
+	ServerEndPoints,
+} from '$scripts/server';
 import { type Actions } from '@sveltejs/kit';
 
 export const actions = {
 	default: async ({ request: eventReq, cookies }) => {
 		let response: ActionData = { success: true, msg: '' };
 		let formData = await eventReq.formData();
-		(await request(ServerEndPoints.UserLogin, null, {
-			email: formData.get(EMAIL_LABEL),
-			password: formData.get(PASSWORD_LABEL)
-		}))
+		(
+			await request(ServerEndPoints.UserLogin, null, {
+				email: formData.get(EMAIL_LABEL),
+				password: formData.get(PASSWORD_LABEL),
+			})
+		)
 			.on(HTTPCodes.BAD_REQUEST, (_) => {
 				response = { success: false, msg: 'Invalid Response' };
 			})
@@ -32,7 +40,10 @@ export const actions = {
 				response = { success: true, msg: token };
 			})
 			.catch(() => {
-				response = { success: false, msg: 'Failed to communicate with the server' };
+				response = {
+					success: false,
+					msg: 'Failed to communicate with the server',
+				};
 			});
 		return response;
 	},
