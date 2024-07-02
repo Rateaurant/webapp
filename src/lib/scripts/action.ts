@@ -1,4 +1,4 @@
 export type ActionData = {
-    success: boolean,
-    msg: string
+	success: boolean;
+	msg: string;
 } | null;
