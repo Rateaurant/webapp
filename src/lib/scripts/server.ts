@@ -22,6 +22,13 @@ export enum HTTPCodes {
     NOT_IMPLEMENTED = 501,
     SERVICE_UNAVAILABLE = 503
 }
+export enum HTTPCodeTypes {
+    Informational,
+    Successful,
+    Redirection,
+    ClientError,
+    ServerError
+}
 
 // METHODS
 const GET = 'GET'
@@ -43,6 +50,22 @@ export enum ServerEndPoints {
     FoodDelete = "restaurant/food/delete"
 }
 
+function getCodeType(status: HTTPCodes): HTTPCodeTypes {
+    if (status < 200) {
+        return HTTPCodeTypes.Informational;
+    }
+    if (status < 300) {
+        return HTTPCodeTypes.Successful;
+    }
+    if (status < 400) {
+        return HTTPCodeTypes.Redirection;
+    }
+    if (status < 500) {
+        return HTTPCodeTypes.ClientError;
+    }
+    return HTTPCodeTypes.ServerError;
+}
+
 class ServerResponse {
     response: Response
     constructor(response: Response) {
@@ -50,6 +73,12 @@ class ServerResponse {
     }
     on(code: number, handler: (response: Response) => Promise<void> | void): this {
         if (this.response.status == code) {
+            handler(this.response);
+        }
+        return this;
+    }
+    on_type(codeType: HTTPCodeTypes, handler: (response: Response) => Promise<void> | void): this {
+        if (codeType == getCodeType(this.response.status)) {
             handler(this.response);
         }
         return this;
@@ -73,7 +102,8 @@ function getEndpoint(endpoint: ServerEndPoints): string {
 }
 
 export async function request(endpoint: ServerEndPoints, session: string | null, { body, extendEndpoint }: { body?: BodyInit, extendEndpoint?: string }): Promise<ServerResponse> {
-    return new ServerResponse(await fetch(getEndpoint(endpoint) + extendEndpoint ?? "", {
+    const url = getEndpoint(endpoint) + (extendEndpoint ?? "");
+    return new ServerResponse(await fetch(url, {
         method: getMethod(endpoint),
         body
     }));

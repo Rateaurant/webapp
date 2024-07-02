@@ -1,17 +1,21 @@
 <script lang="ts">
+	import Alert from '$components/Alert.svelte';
+	import type { ActionData } from '$scripts/action';
 	import { EMAIL_LABEL } from '$scripts/server';
-	import { getContext } from 'svelte';
+	import { getContext, onMount } from 'svelte';
+	import type { Writable } from 'svelte/store';
 
-	const email = getContext<string>(EMAIL_LABEL);
-	const is_owner = getContext<boolean>('is_owner');
+	export let data: ActionData;
+
+	const email = getContext<Writable<string>>(EMAIL_LABEL);
+	let alert: Alert;
+
+	onMount(() => {
+		if (data && !data.success) {
+			alert.trigger(data.msg);
+		}
+	});
 </script>
 
-<form method="post" action="?/is_user">
-	<div>Verification Code is send to <b>{email}</b></div>
-	<input type="number" name="code" />
-	{#if is_owner}
-		<button formaction="?/is_owner">Verify</button>
-	{:else}
-		<button>Verify</button>
-	{/if}
-</form>
+<div>Verification Code is send to <b>{$email}</b></div>
+<Alert bind:this={alert} />

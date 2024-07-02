@@ -1,9 +1,8 @@
 import { dev } from "$app/environment";
 import { goto } from "$app/navigation";
 import type { ActionData } from "$scripts/action";
-import { EMAIL_LABEL, HTTPCodes, PASSWORD_LABEL, request, ServerEndPoints } from "$scripts/server";
+import { HTTPCodes, request, ServerEndPoints } from "$scripts/server";
 import type { Actions } from "@sveltejs/kit";
-import { setContext } from "svelte";
 
 const WEEK = 60 * 60 * 24 * 30;
 

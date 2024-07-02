@@ -1,7 +1,7 @@
+import { redirect } from "@sveltejs/kit";
 import type { PageServerLoad } from "./$types";
-import { goto } from "$app/navigation";
 
 export const load: PageServerLoad = async ({ cookies }) => {
     cookies.delete('session', { path: '/' });
-    goto('/')
+    redirect(303, '/');
 }

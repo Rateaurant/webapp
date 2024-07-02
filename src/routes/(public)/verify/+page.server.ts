@@ -1,44 +1,30 @@
-import { goto } from "$app/navigation";
-import { request, ServerEndPoints, HTTPCodes, EMAIL_LABEL } from "$scripts/server";
-import { setContext } from "svelte"
+import { redirect } from "@sveltejs/kit";
+import type { PageServerLoad } from "./$types";
+import { dev } from "$app/environment";
+import { HTTPCodeTypes, HTTPCodes, ServerEndPoints, request } from "$scripts/server";
 import type { ActionData } from "$scripts/action";
-import { error, type Actions } from "@sveltejs/kit";
 
-export const actions = {
-    is_user: async (event) => {
-        let response: ActionData = { success: true, msg: '' };
-        let formData = await event.request.formData();
-        (
-            await request(
-                ServerEndPoints.VerifyLogin,
-                null,
-                { extendEndpoint: `/user/${formData.get("code")}` }
-            )
-        )
-            .on(HTTPCodes.NOT_FOUND, (_) => {
-                throw error(404, 'Not Found');
-            })
-            .on(HTTPCodes.NOT_ACCEPTABLE, (_) => {
-                response = { success: false, msg: 'Incorrect Code' };
-            })
-            .on(HTTPCodes.ACCEPTED, (_) => {
-                goto('/');
-            });
-        return response;
-    },
-    is_owner: async (event) => {
-        let response: ActionData = { success: true, msg: '' };
-        let formData = await event.request.formData();
-        (
-            await request(
-                ServerEndPoints.VerifyLogin,
-                null,
-                { extendEndpoint: `/owner/${formData.get("code")}` }
-            )
-        )
-            .on(HTTPCodes.ACCEPTED, (_) => {
-                goto('/');
-            });
+const WEEK = 60 * 60 * 24 * 30;
+
+export const load: PageServerLoad = async ({ url, cookies }) => {
+    let response: ActionData = { success: true, msg: '' };
+    const token = url.searchParams.get("code");
+    if (token == null) {
         return response;
     }
-} satisfies Actions;
+    cookies.set('session', token, {
+        path: '/',
+        sameSite: false,
+        secure: !dev,
+        maxAge: WEEK
+    });
+    const res = await request(ServerEndPoints.VerifyLogin, null, { extendEndpoint: `?code=${token}` })
+    console.log(res.response)
+    res.on(HTTPCodes.NOT_ACCEPTABLE, (_) => {
+        response = { success: false, msg: 'Invalid Code' };
+    });
+    if (response.success) {
+        redirect(303, '/');
+    }
+    return response;
+}

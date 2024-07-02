@@ -25,8 +25,6 @@ export const actions = {
                 response = { success: false, msg: 'Email already in use' };
             })
             .on(HTTPCodes.CREATED, (_) => {
-                setContext(EMAIL_LABEL, formData.get(EMAIL_LABEL));
-                setContext('is_owner', false);
                 goto('/verify');
             });
         return response;
