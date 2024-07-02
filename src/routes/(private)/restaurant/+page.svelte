@@ -93,7 +93,9 @@
 		{restaurantName}
 	</div>
 	<div aria-label="Restaurant Data" class="flex gap-5 justify-center">
-		<div aria-label="Reviews" class="bg-dark-20 flex flex-col gap-5 p-5 w-96">
+		<div
+			aria-label="Reviews"
+			class="bg-dark-15 bg-opacity-80 flex flex-col gap-5 p-5 w-96">
 			<div class="h-10 text-xl text-center">Recent Reviews</div>
 			{#each reviews as { message, author, rating }}
 				<div
@@ -107,7 +109,9 @@
 				</div>
 			{/each}
 		</div>
-		<div aria-label="Menu" class="bg-dark-20 flex flex-col gap-5 p-5 w-[50%]">
+		<div
+			aria-label="Menu"
+			class="bg-dark-15 bg-opacity-80 flex flex-col gap-5 p-5 w-[50%]">
 			<div class="flex justify-between items-center">
 				<div></div>
 				<div class="h-10 text-xl text-center content-center">Menu</div>

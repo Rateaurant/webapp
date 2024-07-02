@@ -57,9 +57,9 @@ class ServerResponse {
 }
 
 function getMethod(endpoint: ServerEndPoints): string {
-    const postEndPoints = [ServerEndPoints.CustomerSignUp, ServerEndPoints.OwnerSignUp, ServerEndPoints.UserLogin,
+    const postEndPoints = [ServerEndPoints.CustomerSignUp, ServerEndPoints.OwnerSignUp,
     ServerEndPoints.Edit, ServerEndPoints.FoodAdd, ServerEndPoints.FoodEdit, ServerEndPoints.FoodDelete];
-    const getEndPoints = [ServerEndPoints.VertifyLogin, ServerEndPoints.FoodGet, ServerEndPoints.FoodGetAll];
+    const getEndPoints = [ServerEndPoints.VertifyLogin, ServerEndPoints.FoodGet, ServerEndPoints.FoodGetAll, ServerEndPoints.UserLogin];
     if (postEndPoints.includes(endpoint)) {
         return POST;
     }
@@ -72,7 +72,7 @@ function getEndpoint(endpoint: ServerEndPoints): string {
     return SERVER_ADDRESS + "/" + endpoint;
 }
 
-export async function request(endpoint: ServerEndPoints, body?: BodyInit): Promise<ServerResponse> {
+export async function request(endpoint: ServerEndPoints, session: string | null, body?: BodyInit): Promise<ServerResponse> {
     return new ServerResponse(await fetch(getEndpoint(endpoint), {
         method: getMethod(endpoint),
         body

@@ -2,19 +2,16 @@
 	import Alert from '$components/Alert.svelte';
 	import Button from '$components/Button.svelte';
 	import Captcha from '$components/Captcha.svelte';
-	import {
-		request,
-		ServerEndPoints,
-		formDataToBody,
-		HTTPCodes,
-	} from '$scripts/server';
-	import { redirect } from '@sveltejs/kit';
+	import type { ActionData } from './$types';
+	import { onMount } from 'svelte';
 
-	const formData = {
-		email: '',
-		username: '',
-		password: '',
-	};
+	export let form: ActionData;
+
+	onMount(() => {
+		if (form && !form.success) {
+			alert.trigger(form.msg);
+		}
+	});
 
 	let alert: Alert;
 	let captcha: Captcha;
@@ -22,15 +19,6 @@
 
 <Captcha
 	bind:this={captcha}
-	success={async () => {
-		(await request(ServerEndPoints.OwnerSignUp, formDataToBody(formData)))
-			.on(HTTPCodes.NOT_ACCEPTABLE, (_) => {
-				alert.trigger('Email Already in use');
-			})
-			.on(HTTPCodes.CREATED, (_) => {
-				redirect(302, '/temp');
-			});
-	}}
 	failure={() => {
 		alert.trigger('Captcha Failed');
 	}} />
@@ -42,19 +30,19 @@
 	<div class="flex flex-col gap-5 p-10">
 		<h1 class="text-center text-xl sm:text-3xl mb-2">Owner Signup</h1>
 		<input
-			bind:value={formData.email}
+			name="email"
 			aria-label="Email input"
 			aria-required="true"
 			class="bg-dark-15 rounded-xl text-center p-3"
 			placeholder="Email" />
 		<input
-			bind:value={formData.username}
+			name="username"
 			aria-label="Username input"
 			aria-required="true"
 			class="bg-dark-15 rounded-xl text-center p-3"
 			placeholder="Username" />
 		<input
-			bind:value={formData.password}
+			name="password"
 			aria-label="Password input"
 			aria-required="true"
 			type="password"
