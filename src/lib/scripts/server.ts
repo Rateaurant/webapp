@@ -50,6 +50,13 @@ export enum ServerEndPoints {
     FoodDelete = "restaurant/food/delete"
 }
 
+function requiresAuth(endpoint: ServerEndPoints): boolean {
+    return ![
+        ServerEndPoints.CustomerSignUp, ServerEndPoints.OwnerSignUp,
+        ServerEndPoints.UserLogin, ServerEndPoints.VerifyLogin
+    ].includes(endpoint);
+}
+
 function getCodeType(status: HTTPCodes): HTTPCodeTypes {
     if (status < 200) {
         return HTTPCodeTypes.Informational;
@@ -102,6 +109,9 @@ function getEndpoint(endpoint: ServerEndPoints): string {
 }
 
 export async function request(endpoint: ServerEndPoints, session: string | null, { body, extendEndpoint }: { body?: BodyInit, extendEndpoint?: string }): Promise<ServerResponse> {
+    if (requiresAuth(endpoint) && session == null) {
+        throw Error(`${endpoint} requires Authentication`);
+    }
     const url = getEndpoint(endpoint) + (extendEndpoint ?? "");
     return new ServerResponse(await fetch(url, {
         method: getMethod(endpoint),
