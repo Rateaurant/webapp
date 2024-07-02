@@ -7,6 +7,7 @@
 	import { getContext, onMount } from 'svelte';
 	import { EMAIL_LABEL, PASSWORD_LABEL, USERNAME_LABEL } from '$scripts/server';
 	import type { Writable } from 'svelte/store';
+	import { goto } from '$app/navigation';
 
 	const email = getContext<Writable<string>>(EMAIL_LABEL);
 	const username = getContext<Writable<string>>(USERNAME_LABEL);
@@ -27,9 +28,18 @@
 
 	let alert: Alert;
 	let captcha: Captcha;
+	let button: Button;
 
 	onMount(() => {
-		if (form && !form.success) {
+		if (!form) {
+			return;
+		}
+		button.enable();
+		if (form.success) {
+			if (form.msg == 'verify') {
+				goto('/verify');
+			}
+		} else {
 			alert.trigger(form.msg);
 		}
 	});
@@ -79,6 +89,7 @@
 		<Alert bind:this={alert} />
 	</div>
 	<Button
+		bind:this={button}
 		label="Sign up to Rateaurant!"
 		class="bg-gradient-to-r from-secondary to-primary p-5
 		rounded-b-3xl text-3xl hover:text-4xl transition-all duration-200 ease-out rounded-br-3xl"

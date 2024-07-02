@@ -1,10 +1,11 @@
-const SERVER_ADDRESS = 'https://api.rateaurant.vercel.app';
+import { dev } from "$app/environment";
+
+const SERVER_ADDRESS = dev ? 'http://127.0.0.1:5000' : 'https://api.rateaurant.vercel.app';
 
 // User data
 export const USERNAME_LABEL = 'username';
 export const PASSWORD_LABEL = 'password';
 export const EMAIL_LABEL = 'email';
-const LABELS = [USERNAME_LABEL, PASSWORD_LABEL, EMAIL_LABEL];
 
 // HTTP Codes
 export enum HTTPCodes {
@@ -76,14 +77,18 @@ function getCodeType(status: HTTPCodes): HTTPCodeTypes {
 }
 
 class ServerResponse {
-	response: Response;
-	constructor(response: Response) {
+	response: Response | null;
+	constructor(response: Response | null) {
+		console.log(response);
 		this.response = response;
 	}
 	on(
 		code: number,
 		handler: (response: Response) => Promise<void> | void,
 	): this {
+		if (this.response == null) {
+			return this;
+		}
 		if (this.response.status == code) {
 			handler(this.response);
 		}
@@ -93,8 +98,17 @@ class ServerResponse {
 		codeType: HTTPCodeTypes,
 		handler: (response: Response) => Promise<void> | void,
 	): this {
+		if (this.response == null) {
+			return this;
+		}
 		if (codeType == getCodeType(this.response.status)) {
 			handler(this.response);
+		}
+		return this;
+	}
+	catch(handler: () => Promise<void> | void): this {
+		if (this.response == null) {
+			handler();
 		}
 		return this;
 	}
@@ -108,12 +122,12 @@ function getMethod(endpoint: ServerEndPoints): string {
 		ServerEndPoints.FoodAdd,
 		ServerEndPoints.FoodEdit,
 		ServerEndPoints.FoodDelete,
+		ServerEndPoints.UserLogin,
 	];
 	const getEndPoints = [
 		ServerEndPoints.VerifyLogin,
 		ServerEndPoints.FoodGet,
 		ServerEndPoints.FoodGetAll,
-		ServerEndPoints.UserLogin,
 	];
 	if (postEndPoints.includes(endpoint)) {
 		return POST;
@@ -130,18 +144,29 @@ function getEndpoint(endpoint: ServerEndPoints): string {
 export async function request(
 	endpoint: ServerEndPoints,
 	session: string | null,
-	{ body, extendEndpoint }: { body?: BodyInit; extendEndpoint?: string },
+	data: Object,
 ): Promise<ServerResponse> {
 	if (requiresAuth(endpoint) && session == null) {
-		throw Error(`${endpoint} requires Authentication`);
+		throw new Error(`${endpoint} requires Authentication`);
 	}
-	const url = getEndpoint(endpoint) + (extendEndpoint ?? '');
-	return new ServerResponse(
-		await fetch(url, {
-			method: getMethod(endpoint),
-			body,
-		}),
-	);
+	const method = getMethod(endpoint);
+	const url = getEndpoint(endpoint);
+	let response: Response;
+	try {
+		if (method == POST) {
+			response = await fetch(url, {
+				method,
+				body: objToBody(data)
+			})
+		} else if (method == GET) {
+			response = await fetch(url + objToParams(data));
+		} else {
+			throw new Error(`Unhandled ${method} HTTP Method`);
+		}
+	} catch {
+		return new ServerResponse(null);
+	}
+	return new ServerResponse(response);
 }
 
 // Equivalently do something like this ->
@@ -150,13 +175,25 @@ export async function request(
 // 	['email', formData.email],
 // 	['password', formData.password],
 // ]),
-export function formDataToBody(formData: Object): BodyInit {
+function objToBody(data: any): BodyInit {
 	const searchParams = [];
-	for (const keys of Object.keys(formData)) {
+	for (const keys of Object.keys(data)) {
 		const simple_key = keys.trim().toLowerCase();
-		if (LABELS.includes(simple_key)) {
-			searchParams.push([simple_key, (formData as any)[simple_key]]);
-		}
+		searchParams.push([simple_key, data[simple_key]]);
 	}
 	return new URLSearchParams(searchParams);
+}
+
+function objToParams(data: any): string {
+	let output = ``;
+	const keys = Object.keys(data);
+	for (let i = 0; i < keys.length; i++) {
+		const key = keys[i];
+		if (i == 0) {
+			output += `?${key}=${data[key]}`;
+			continue;
+		}
+		output += `&${key}=${data[key]}`;
+	}
+	return output;
 }

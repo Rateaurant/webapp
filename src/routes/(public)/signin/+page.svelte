@@ -1,9 +1,11 @@
 <script lang="ts">
+	import { goto } from '$app/navigation';
 	import Alert from '$components/Alert.svelte';
 	import Anchor from '$components/Anchor.svelte';
 	import Button from '$components/Button.svelte';
 	import Captcha from '$components/Captcha.svelte';
 	import type { ActionData } from '$scripts/action';
+	import { SESSION_LABEL } from '$scripts/cookie';
 	import { EMAIL_LABEL, PASSWORD_LABEL } from '$scripts/server';
 	import { getContext, onMount } from 'svelte';
 	import type { Writable } from 'svelte/store';
@@ -26,10 +28,15 @@
 	let captcha: Captcha;
 
 	onMount(() => {
-		if (form && !form.success) {
+		if (!form) {
+			return;
+		}
+		if (form.success) {
+			getContext<Writable<string | undefined>>(SESSION_LABEL).set(form.msg);
+			goto('/');
+		} else {
 			alert.trigger(form.msg);
 		}
-		alert.trigger('Test alert');
 	});
 </script>
 
@@ -43,7 +50,8 @@
 <form
 	aria-label="Sign Up form"
 	class="flex flex-col bg-dark-20 rounded-3xl text-lg sm:text-xl mb-36
-	drop-shadow-3xl w-1/2 min-w-72 sm:min-w-96 max-w-[35rem]">
+	drop-shadow-3xl w-1/2 min-w-72 sm:min-w-96 max-w-[35rem]"
+	method="post">
 	<div class="flex flex-col gap-3 p-10">
 		<h1 class="text-center text-xl sm:text-3xl mb-2">Customer Signin</h1>
 		<input

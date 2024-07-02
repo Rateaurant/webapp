@@ -1,3 +1,4 @@
+import { SESSION_LABEL } from '$scripts/cookie';
 import { redirect, type Handle } from '@sveltejs/kit';
 
 // Basically paths under (private)
@@ -16,7 +17,7 @@ export const handle: Handle = async ({ event, resolve }) => {
 	const requestedPath = event.url.pathname;
 	const cookies = event.cookies;
 
-	const currentToken = cookies.get('session');
+	const currentToken = cookies.get(SESSION_LABEL);
 
 	if (isOnlyAuthPath(requestedPath) && currentToken == undefined) {
 		throw redirect(303, '/signin');

@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { goto } from '$app/navigation';
 	import Alert from '$components/Alert.svelte';
 	import Button from '$components/Button.svelte';
 	import Captcha from '$components/Captcha.svelte';
@@ -25,7 +26,12 @@
 	export let form: ActionData;
 
 	onMount(() => {
-		if (form && !form.success) {
+		if (!form) {
+			return;
+		}
+		if (form.success) {
+			goto('/');
+		} else {
 			alert.trigger(form.msg);
 		}
 	});
@@ -43,7 +49,8 @@
 <form
 	aria-label="Sign Up form"
 	class="flex flex-col bg-dark-20 rounded-3xl text-lg sm:text-xl mb-36
-	drop-shadow-3xl w-1/2 min-w-72 sm:min-w-96 max-w-[35rem]">
+	drop-shadow-3xl w-1/2 min-w-72 sm:min-w-96 max-w-[35rem]"
+	method="post">
 	<div class="flex flex-col gap-5 p-10">
 		<h1 class="text-center text-xl sm:text-3xl mb-2">Owner Signup</h1>
 		<input

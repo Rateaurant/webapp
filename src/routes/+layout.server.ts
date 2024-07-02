@@ -1,3 +1,4 @@
+import { SESSION_LABEL } from '$scripts/cookie';
 import type { LayoutServerLoad } from './$types';
 
 type PageData = {
@@ -6,6 +7,6 @@ type PageData = {
 
 export const load = (async ({ cookies }) => {
 	return {
-		session: cookies.get('session'),
+		session: cookies.get(SESSION_LABEL),
 	};
 }) satisfies LayoutServerLoad;

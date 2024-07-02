@@ -1,21 +1,32 @@
 <script lang="ts">
 	import Alert from '$components/Alert.svelte';
 	import type { ActionData } from '$scripts/action';
-	import { EMAIL_LABEL } from '$scripts/server';
+	import { SESSION_LABEL } from '$scripts/cookie';
 	import { getContext, onMount } from 'svelte';
 	import type { Writable } from 'svelte/store';
 
 	export let data: ActionData;
 
-	const email = getContext<Writable<string>>(EMAIL_LABEL);
 	let alert: Alert;
+	let is_verified = false;
 
 	onMount(() => {
-		if (data && !data.success) {
+		if (!data) {
+			return;
+		}
+		if (!data.success) {
 			alert.trigger(data.msg);
 		}
 	});
+	if (data && data.success && data.msg.length != 0) {
+		getContext<Writable<string | undefined>>(SESSION_LABEL).set(data.msg);
+		is_verified = true;
+	}
 </script>
 
-<div>Verification Code is send to <b>{$email}</b></div>
-<Alert bind:this={alert} />
+{#if is_verified}
+	<div>Verified</div>
+{:else}
+	<div>Check your email for a verification link</div>
+	<Alert bind:this={alert} />
+{/if}
