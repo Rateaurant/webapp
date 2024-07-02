@@ -3,8 +3,25 @@
 	import Button from '$components/Button.svelte';
 	import Alert from '$components/Alert.svelte';
 	import Captcha from '$components/Captcha.svelte';
-	import type { ActionData } from './$types';
-	import { onMount } from 'svelte';
+	import type { ActionData } from '$scripts/action';
+	import { getContext, onMount } from 'svelte';
+	import { EMAIL_LABEL, PASSWORD_LABEL, USERNAME_LABEL } from '$scripts/server';
+	import type { Writable } from 'svelte/store';
+
+	const email = getContext<Writable<string>>(EMAIL_LABEL);
+	const username = getContext<Writable<string>>(USERNAME_LABEL);
+	const password = getContext<Writable<string>>(PASSWORD_LABEL);
+	const formData = {
+		email: $email,
+		username: $username,
+		password: $password,
+	};
+
+	$: {
+		email.set(formData.email);
+		username.set(formData.username);
+		password.set(formData.password);
+	}
 
 	export let form: ActionData;
 
@@ -34,26 +51,29 @@
 	<div class="flex flex-col gap-3 p-10">
 		<h1 class="text-center text-xl sm:text-3xl mb-2">Customer Signup</h1>
 		<input
-			name="email"
+			bind:value={formData.email}
+			name={EMAIL_LABEL}
 			aria-label="Email input"
 			aria-required="true"
 			class="bg-dark-15 rounded-xl text-center p-3"
 			placeholder="Email" />
 		<input
-			name="username"
+			bind:value={formData.username}
+			name={USERNAME_LABEL}
 			aria-label="Username input"
 			aria-required="true"
 			class="bg-dark-15 rounded-xl text-center p-3"
 			placeholder="Username" />
 		<input
+			bind:value={formData.password}
 			aria-label="Password input"
-			name="password"
+			name={PASSWORD_LABEL}
 			aria-required="true"
 			type="password"
 			class="bg-dark-15 rounded-xl text-center p-3"
 			placeholder="Password" />
 		<Anchor
-			href="/owner-signup"
+			href="/signup/owner"
 			label="Go here for making this a Restaurant Account"
 			class="text-center">Do you own a restaurant?</Anchor>
 		<Alert bind:this={alert} />

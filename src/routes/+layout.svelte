@@ -1,15 +1,13 @@
 <script lang="ts">
-	import Button from '$components/Button.svelte';
 	import Navbar from '$components/Navbar.svelte';
 	import '../app.css';
+	import type { PageData } from './$types';
+
+	export let data: PageData;
 </script>
 
 <body class="flex flex-col xs:block bg-dark-25 text-whitetext font-montserrat">
-	<!-- <Button
-		handler={() => session.set($session == null ? 'temp' : null)}
-		class="absolute">Toggle Auth State</Button> -->
-	<!-- <Navbar loggedIn={$session != null} /> -->
-	<Navbar loggedIn={false} />
+	<Navbar loggedIn={data.session != undefined} />
 	<slot />
 </body>
 

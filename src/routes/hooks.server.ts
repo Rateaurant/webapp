@@ -19,10 +19,9 @@ export const handle: Handle = async ({ event, resolve }) => {
     const requestedPath = event.url.pathname;
     const cookies = event.cookies;
 
-    const currentToken = cookies.get('auth');
-    const isTokenValid = currentToken === "123"; // temp
+    const currentToken = cookies.get('session');
 
-    if (isOnlyAuthPath(requestedPath) && !isTokenValid) {
+    if (isOnlyAuthPath(requestedPath) && currentToken == undefined) {
         throw redirect(303, "/signin");
     }
 

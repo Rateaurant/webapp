@@ -1,1 +1,1 @@
-Sign Out
+Signing Out

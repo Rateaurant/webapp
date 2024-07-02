@@ -1,15 +1,35 @@
-import { request, ServerEndPoints } from "$scripts/server";
-import { redirect, type Actions } from "@sveltejs/kit";
+import { dev } from "$app/environment";
+import { goto } from "$app/navigation";
+import type { ActionData } from "$scripts/action";
+import { EMAIL_LABEL, HTTPCodes, PASSWORD_LABEL, request, ServerEndPoints } from "$scripts/server";
+import type { Actions } from "@sveltejs/kit";
+import { setContext } from "svelte";
 
-type ActionData = {
-    success: boolean,
-    msg: string
-};
+const WEEK = 60 * 60 * 24 * 30;
 
 export const actions = {
-    default: async (event) => {
+    default: async ({ request: eventReq, cookies }) => {
         let response: ActionData = { success: true, msg: '' };
-        await request(ServerEndPoints.UserLogin, null, await event.request.formData());
-        redirect(302, '/temp');
+        let formData = await eventReq.formData();
+        (await request(ServerEndPoints.UserLogin, null, { body: formData }))
+            .on(HTTPCodes.BAD_REQUEST, (_) => {
+                response = { success: false, msg: 'Invalid Response' };
+            })
+            .on(HTTPCodes.NOT_ACCEPTABLE, (_) => {
+                response = { success: false, msg: 'Email not registered' };
+            })
+            .on(HTTPCodes.UNAUTHORIZED, (_) => {
+                response = { success: false, msg: 'Incorrect Password' };
+            })
+            .on(HTTPCodes.OK, async (response) => {
+                const token: string = (await response.json()).token
+                cookies.set('session', token, {
+                    path: '/',
+                    sameSite: false,
+                    secure: !dev,
+                    maxAge: WEEK
+                });
+            });
+        goto('/')
     }
 } satisfies Actions;

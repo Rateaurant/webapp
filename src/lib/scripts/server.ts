@@ -1,9 +1,9 @@
 const SERVER_ADDRESS = "https://api.rateaurant.vercel.app"
 
 // User data
-const USERNAME_LABEL = "username"
-const PASSWORD_LABEL = "password"
-const EMAIL_LABEL = "email"
+export const USERNAME_LABEL = "username"
+export const PASSWORD_LABEL = "password"
+export const EMAIL_LABEL = "email"
 const LABELS = [USERNAME_LABEL, PASSWORD_LABEL, EMAIL_LABEL];
 
 // HTTP Codes
@@ -32,7 +32,7 @@ export enum ServerEndPoints {
     OwnerSignUp = "auth/register/owner",
 
     UserLogin = "auth/login",
-    VertifyLogin = "auth/verify",
+    VerifyLogin = "auth/verify",
 
     // Session Token Required Endpoints
     Edit = "edit",
@@ -59,7 +59,7 @@ class ServerResponse {
 function getMethod(endpoint: ServerEndPoints): string {
     const postEndPoints = [ServerEndPoints.CustomerSignUp, ServerEndPoints.OwnerSignUp,
     ServerEndPoints.Edit, ServerEndPoints.FoodAdd, ServerEndPoints.FoodEdit, ServerEndPoints.FoodDelete];
-    const getEndPoints = [ServerEndPoints.VertifyLogin, ServerEndPoints.FoodGet, ServerEndPoints.FoodGetAll, ServerEndPoints.UserLogin];
+    const getEndPoints = [ServerEndPoints.VerifyLogin, ServerEndPoints.FoodGet, ServerEndPoints.FoodGetAll, ServerEndPoints.UserLogin];
     if (postEndPoints.includes(endpoint)) {
         return POST;
     }
@@ -72,8 +72,8 @@ function getEndpoint(endpoint: ServerEndPoints): string {
     return SERVER_ADDRESS + "/" + endpoint;
 }
 
-export async function request(endpoint: ServerEndPoints, session: string | null, body?: BodyInit): Promise<ServerResponse> {
-    return new ServerResponse(await fetch(getEndpoint(endpoint), {
+export async function request(endpoint: ServerEndPoints, session: string | null, { body, extendEndpoint }: { body?: BodyInit, extendEndpoint?: string }): Promise<ServerResponse> {
+    return new ServerResponse(await fetch(getEndpoint(endpoint) + extendEndpoint ?? "", {
         method: getMethod(endpoint),
         body
     }));
