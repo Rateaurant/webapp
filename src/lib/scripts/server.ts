@@ -1,5 +1,6 @@
 import { dev } from '$app/environment';
 import { Logger } from './logger';
+import type { HandlerResponse } from './action';
 
 const SERVER_ADDRESS = dev
 	? 'http://127.0.0.1:5000'
@@ -81,38 +82,58 @@ function getCodeType(status: HTTPCodes): HTTPCodeTypes {
 
 class ServerResponse {
 	response: Response | null;
+	handler_response: Promise<HandlerResponse> | HandlerResponse | null;
 	constructor(response: Response | null) {
 		this.response = response;
+		this.handler_response = null;
 	}
 	on(
 		code: number,
-		handler: (response: Response) => Promise<void> | void,
+		handler: (response: Response) => Promise<HandlerResponse> | HandlerResponse,
 	): this {
-		if (this.response == null) {
+		if (this.response == null || this.handler_response != null) {
 			return this;
 		}
 		if (this.response.status == code) {
-			handler(this.response);
+			const response = handler(this.response);
+			if (response) {
+				this.handler_response = response;
+			}
 		}
 		return this;
 	}
 	on_type(
 		codeType: HTTPCodeTypes,
-		handler: (response: Response) => Promise<void> | void,
+		handler: (response: Response) => Promise<HandlerResponse> | HandlerResponse,
 	): this {
-		if (this.response == null) {
+		if (this.response == null || this.handler_response != null) {
 			return this;
 		}
 		if (codeType == getCodeType(this.response.status)) {
-			handler(this.response);
+			const response = handler(this.response);
+			if (response) {
+				this.handler_response = response;
+			}
 		}
 		return this;
 	}
-	catch(handler: () => Promise<void> | void): this {
+	catch(handler: () => Promise<HandlerResponse> | HandlerResponse): this {
 		if (this.response == null) {
-			handler();
+			const response = handler();
+			if (response) {
+				this.handler_response = response;
+			}
 		}
 		return this;
+	}
+	async getResult(): Promise<HandlerResponse | null> {
+		let result: HandlerResponse | null;
+		if (this.handler_response instanceof Promise) {
+			result = await this.handler_response;
+		} else {
+			result = this.handler_response;
+		}
+		return result;
 	}
 }
 

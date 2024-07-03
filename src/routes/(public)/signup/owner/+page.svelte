@@ -1,9 +1,10 @@
 <script lang="ts">
+	import { enhance } from '$app/forms';
 	import { goto } from '$app/navigation';
 	import Alert from '$components/Alert.svelte';
 	import Button from '$components/Button.svelte';
 	import Captcha from '$components/Captcha.svelte';
-	import type { ActionData } from '$scripts/action';
+	import type { SubmitFunctionFormAction } from '$scripts/action';
 	import { EMAIL_LABEL, PASSWORD_LABEL, USERNAME_LABEL } from '$scripts/server';
 	import { email, password, username } from '$scripts/store';
 	import { onMount } from 'svelte';
@@ -20,24 +21,20 @@
 		password.set(formData.password);
 	}
 
-	export let form: ActionData;
-
 	let alert: Alert;
 	let captcha: Captcha;
+	let submit: Button;
 
-	onMount(() => {
+	const formAction: SubmitFunctionFormAction = ({}) => {
 		captcha.trigger();
-		if (!form) {
-			return;
-		}
-		if (form.success) {
-			if (form.msg == 'verify') {
-				goto('/verify');
+		submit.loadingTrigger();
+		return async ({ result }) => {
+			submit.resolve();
+			if (result.type == 'failure') {
+				alert.trigger(result.data!.message);
 			}
-		} else {
-			alert.trigger(form.msg);
-		}
-	});
+		};
+	};
 </script>
 
 <Captcha
@@ -50,7 +47,8 @@
 	aria-label="Sign Up form"
 	class="flex flex-col bg-dark-20 rounded-3xl text-lg sm:text-xl mb-36
 	drop-shadow-3xl w-1/2 min-w-72 sm:min-w-96 max-w-[35rem]"
-	method="post">
+	method="post"
+	use:enhance={formAction}>
 	<div class="flex flex-col gap-5 p-10">
 		<h1 class="text-center text-xl sm:text-3xl mb-4">Owner Sign Up</h1>
 		<label for="email" class="block">
@@ -86,6 +84,7 @@
 		<Alert bind:this={alert} />
 	</div>
 	<Button
+		bind:this={submit}
 		label="Sign up to Rateaurant!"
 		class="bg-gradient-to-r from-secondary to-primary p-5
 		rounded-b-3xl text-3xl hover:text-4xl transition-all duration-200 ease-out rounded-br-3xl"

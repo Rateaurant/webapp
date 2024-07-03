@@ -1,5 +1,4 @@
 import { dev } from '$app/environment';
-import type { ActionData } from '$scripts/action';
 import { SESSION_LABEL, WEEK } from '$scripts/cookie';
 import { Logger } from '$scripts/logger';
 import {
@@ -9,38 +8,36 @@ import {
 	request,
 	ServerEndPoints,
 } from '$scripts/server';
-import { type Actions } from '@sveltejs/kit';
+import { fail, type Actions } from '@sveltejs/kit';
 
 export const actions = {
 	default: async ({ request: eventReq, cookies }) => {
 		Logger.info('Signin: Default');
-		let response: ActionData = { success: true, msg: '' };
 		let formData = await eventReq.formData();
-		(
+		return await (
 			await request(ServerEndPoints.UserLogin, null, {
 				email: formData.get(EMAIL_LABEL),
 				password: formData.get(PASSWORD_LABEL),
 			})
 		)
-			.on(HTTPCodes.BAD_REQUEST, (_) => {
+			.on(HTTPCodes.BAD_REQUEST, () => {
 				Logger.info('Signin: BAD_REQUEST');
-				response = { success: false, msg: 'Invalid Response' };
+				return fail(HTTPCodes.BAD_REQUEST, { message: 'Invalid Response' });
 			})
-			.on(HTTPCodes.NOT_ACCEPTABLE, (_) => {
+			.on(HTTPCodes.NOT_ACCEPTABLE, () => {
 				Logger.info('Signin: NOT_ACCEPTABLE');
-				response = { success: false, msg: 'Email not registered' };
+				return fail(HTTPCodes.NOT_ACCEPTABLE, { message: 'Email not registered' });
 			})
-			.on(HTTPCodes.UNAUTHORIZED, (_) => {
+			.on(HTTPCodes.UNAUTHORIZED, () => {
 				Logger.info('Signin: UNAUTHORIZED');
-				response = { success: false, msg: 'Incorrect Password' };
+				return fail(HTTPCodes.UNAUTHORIZED, { message: 'Incorrect Password' });
 			})
-			.on(HTTPCodes.OK, async (res) => {
+			.on(HTTPCodes.OK, ({ headers }) => {
 				Logger.info('Signin: OK');
-				const token = res.headers.get('set-cookie');
+				const token = headers.get('set-cookie');
 				if (token == null) {
 					Logger.error('Signin: Token failed to receive');
-					response = { success: false, msg: 'Session failed to generate' };
-					return;
+					return fail(HTTPCodes.INTERNAL_SERVER_ERROR, { message: 'Session failed to generate' });
 				}
 				cookies.set(SESSION_LABEL, token, {
 					path: '/',
@@ -49,15 +46,12 @@ export const actions = {
 					maxAge: WEEK,
 				});
 
-				response = { success: true, msg: token };
+				return { message: token };
 			})
 			.catch(() => {
 				Logger.error('Signin: Server Communication Faulted');
-				response = {
-					success: false,
-					msg: 'Failed to communicate with the server',
-				};
-			});
-		return response;
+				return fail(HTTPCodes.SERVICE_UNAVAILABLE, { message: 'Failed to communicate with the server' });
+			})
+			.getResult();
 	},
 } satisfies Actions;

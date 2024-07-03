@@ -1,26 +1,22 @@
 <script lang="ts">
 	import Alert from '$components/Alert.svelte';
-	import type { ActionData } from '$scripts/action';
+	import type { Action } from '$scripts/action';
 	import { session } from '$scripts/store';
 	import { onMount } from 'svelte';
 
-	export let data: ActionData;
+	export let data: Action & { type: 'success' | 'failure' };
 
 	let alert: Alert;
 	let is_verified = false;
 
 	onMount(() => {
-		if (!data) {
-			return;
-		}
-		if (!data.success) {
-			alert.trigger(data.msg);
+		if (data.type == 'success') {
+			session.set(data.message);
+			is_verified = true;
+		} else {
+			alert.trigger(data.message);
 		}
 	});
-	if (data && data.success && data.msg.length != 0) {
-		session.set(data.msg);
-		is_verified = true;
-	}
 </script>
 
 {#if is_verified}
