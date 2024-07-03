@@ -1,4 +1,5 @@
 import { dev } from '$app/environment';
+import { Logger } from './logger';
 
 const SERVER_ADDRESS = dev
 	? 'http://127.0.0.1:5000'
@@ -81,7 +82,6 @@ function getCodeType(status: HTTPCodes): HTTPCodeTypes {
 class ServerResponse {
 	response: Response | null;
 	constructor(response: Response | null) {
-		console.log(response);
 		this.response = response;
 	}
 	on(
@@ -145,11 +145,16 @@ function getEndpoint(endpoint: ServerEndPoints): string {
 
 export async function request(
 	endpoint: ServerEndPoints,
-	session: string | null,
+	token: string | null,
 	data: Object,
 ): Promise<ServerResponse> {
-	if (requiresAuth(endpoint) && session == null) {
-		throw new Error(`${endpoint} requires Authentication`);
+	if (requiresAuth(endpoint) && token == null) {
+		Logger.error(`Server: ${endpoint} requires Authentication`);
+		return new ServerResponse(null);
+	}
+	const headers = {};
+	if (token) {
+		(headers as any)['cookie'] = token;
 	}
 	const method = getMethod(endpoint);
 	const url = getEndpoint(endpoint);
@@ -158,12 +163,14 @@ export async function request(
 		if (method == POST) {
 			response = await fetch(url, {
 				method,
+				headers,
 				body: objToBody(data),
 			});
 		} else if (method == GET) {
-			response = await fetch(url + objToParams(data));
+			response = await fetch(url + objToParams(data), { headers });
 		} else {
-			throw new Error(`Unhandled ${method} HTTP Method`);
+			Logger.error(`Unhandled ${method} HTTP Method`);
+			return new ServerResponse(null);
 		}
 	} catch {
 		return new ServerResponse(null);

@@ -4,14 +4,11 @@
 	import Alert from '$components/Alert.svelte';
 	import Captcha from '$components/Captcha.svelte';
 	import type { ActionData } from '$scripts/action';
-	import { getContext, onMount } from 'svelte';
+	import { onMount } from 'svelte';
 	import { EMAIL_LABEL, PASSWORD_LABEL, USERNAME_LABEL } from '$scripts/server';
-	import type { Writable } from 'svelte/store';
 	import { goto } from '$app/navigation';
+	import { email, password, username } from '$scripts/store';
 
-	const email = getContext<Writable<string>>(EMAIL_LABEL);
-	const username = getContext<Writable<string>>(USERNAME_LABEL);
-	const password = getContext<Writable<string>>(PASSWORD_LABEL);
 	const formData = {
 		email: $email,
 		username: $username,
@@ -31,6 +28,7 @@
 	let button: Button;
 
 	onMount(() => {
+		captcha.trigger();
 		if (!form) {
 			return;
 		}
@@ -56,32 +54,39 @@
 	aria-label="Sign Up form"
 	class="flex flex-col bg-dark-20 rounded-3xl text-lg sm:text-xl mb-36
 	drop-shadow-3xl w-1/2 min-w-72 sm:min-w-96 max-w-[35rem]"
-	method="post"
-	on:submit={() => captcha.trigger()}>
+	method="post">
 	<div class="flex flex-col gap-3 p-10">
-		<h1 class="text-center text-xl sm:text-3xl mb-2">Customer Signup</h1>
-		<input
-			bind:value={formData.email}
-			name={EMAIL_LABEL}
-			aria-label="Email input"
-			aria-required="true"
-			class="bg-dark-15 rounded-xl text-center p-3"
-			placeholder="Email" />
-		<input
-			bind:value={formData.username}
-			name={USERNAME_LABEL}
-			aria-label="Username input"
-			aria-required="true"
-			class="bg-dark-15 rounded-xl text-center p-3"
-			placeholder="Username" />
-		<input
-			bind:value={formData.password}
-			aria-label="Password input"
-			name={PASSWORD_LABEL}
-			aria-required="true"
-			type="password"
-			class="bg-dark-15 rounded-xl text-center p-3"
-			placeholder="Password" />
+		<h1 class="text-center text-xl sm:text-3xl mb-4">Customer Sign Up</h1>
+		<label for="email" class="block">
+			<span class="text-base">Email</span>
+			<input
+				bind:value={formData.email}
+				name={EMAIL_LABEL}
+				aria-label="Email input"
+				aria-required="true"
+				class="form-input mt-0 block w-full px-0.5 pl-2 border-0 border-b-2 border-gray-200 focus:ring-0 focus:border-black bg-dark-20"
+				placeholder="johndoe@mail.com" />
+		</label>
+		<label for="username" class="block">
+			<span class="text-base">Username</span>
+			<input
+				bind:value={formData.username}
+				name={USERNAME_LABEL}
+				aria-label="Username input"
+				aria-required="true"
+				class="form-input mt-0 block w-full px-0.5 pl-2 border-0 border-b-2 border-gray-200 focus:ring-0 focus:border-black bg-dark-20"
+				placeholder="John Doe" />
+		</label>
+		<label for="password" class="block">
+			<span class="text-base">Password</span>
+			<input
+				bind:value={formData.password}
+				name={PASSWORD_LABEL}
+				aria-label="Password input"
+				aria-required="true"
+				type="password"
+				class="form-input mt-0 block w-full px-0.5 pl-2 border-0 border-b-2 border-gray-200 focus:ring-0 focus:border-black bg-dark-20" />
+		</label>
 		<Anchor
 			href="/signup/owner"
 			label="Go here for making this a Restaurant Account"

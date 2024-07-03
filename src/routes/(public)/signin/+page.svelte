@@ -5,13 +5,10 @@
 	import Button from '$components/Button.svelte';
 	import Captcha from '$components/Captcha.svelte';
 	import type { ActionData } from '$scripts/action';
-	import { SESSION_LABEL } from '$scripts/cookie';
 	import { EMAIL_LABEL, PASSWORD_LABEL } from '$scripts/server';
-	import { getContext, onMount } from 'svelte';
-	import type { Writable } from 'svelte/store';
+	import { session, email, password } from '$scripts/store';
+	import { onMount } from 'svelte';
 
-	const email = getContext<Writable<string>>(EMAIL_LABEL);
-	const password = getContext<Writable<string>>(PASSWORD_LABEL);
 	const formData = {
 		email: $email,
 		password: $password,
@@ -28,11 +25,12 @@
 	let captcha: Captcha;
 
 	onMount(() => {
+		captcha.trigger();
 		if (!form) {
 			return;
 		}
 		if (form.success) {
-			getContext<Writable<string | undefined>>(SESSION_LABEL).set(form.msg);
+			session.set(form.msg);
 			goto('/');
 		} else {
 			alert.trigger(form.msg);
@@ -53,25 +51,33 @@
 	drop-shadow-3xl w-1/2 min-w-72 sm:min-w-96 max-w-[35rem]"
 	method="post">
 	<div class="flex flex-col gap-3 p-10">
-		<h1 class="text-center text-xl sm:text-3xl mb-2">Customer Signin</h1>
-		<input
-			bind:value={formData.email}
-			name={EMAIL_LABEL}
-			aria-label="Email input"
-			aria-required="true"
-			class="bg-dark-15 rounded-xl text-center p-3"
-			placeholder="Email" />
-		<input
-			bind:value={formData.password}
-			name={PASSWORD_LABEL}
-			aria-label="Password input"
-			aria-required="true"
-			type="password"
-			class="bg-dark-15 rounded-xl text-center p-3"
-			placeholder="Password" />
+		<h1 class="text-center text-xl sm:text-3xl mb-4">Customer Sign In</h1>
+		<label for="email" class="block">
+			<span class="text-base">Email</span>
+			<input
+				bind:value={formData.email}
+				name={EMAIL_LABEL}
+				aria-label="Email input"
+				aria-required="true"
+				class="form-input mt-0 block w-full px-0.5 pl-2 border-0 border-b-2 border-gray-200 focus:ring-0 focus:border-black bg-dark-20"
+				placeholder="johndoe@mail.com" />
+		</label>
+		<label for="password" class="block">
+			<span class="text-base">Password</span>
+			<input
+				bind:value={formData.password}
+				name={PASSWORD_LABEL}
+				aria-label="Password input"
+				aria-required="true"
+				type="password"
+				class="form-input mt-0 block w-full px-0.5 pl-2 border-0 border-b-2 border-gray-200 focus:ring-0 focus:border-black bg-dark-20" />
+		</label>
 
 		<!-- TODO href -->
-		<Anchor href="/" label="Did you forget your password" class="text-center"
+		<Anchor
+			href="/"
+			label="Did you forget your password"
+			class="text-sm pt-5 text-primary hover:text-secondary duration-200 ease-out"
 			>Forgot password</Anchor>
 		<Alert bind:this={alert} />
 	</div>
@@ -79,6 +85,5 @@
 		label="Sign in to Rateaurant!"
 		class="bg-gradient-to-r from-secondary to-primary p-5
 		rounded-b-3xl text-3xl hover:text-4xl transition-all duration-200 ease-out rounded-br-3xl"
-		type="submit"
-		handler={() => captcha.trigger()}>Sign In!</Button>
+		type="submit">Sign In!</Button>
 </form>

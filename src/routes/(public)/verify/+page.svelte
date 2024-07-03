@@ -1,9 +1,8 @@
 <script lang="ts">
 	import Alert from '$components/Alert.svelte';
 	import type { ActionData } from '$scripts/action';
-	import { SESSION_LABEL } from '$scripts/cookie';
-	import { getContext, onMount } from 'svelte';
-	import type { Writable } from 'svelte/store';
+	import { session } from '$scripts/store';
+	import { onMount } from 'svelte';
 
 	export let data: ActionData;
 
@@ -19,7 +18,7 @@
 		}
 	});
 	if (data && data.success && data.msg.length != 0) {
-		getContext<Writable<string | undefined>>(SESSION_LABEL).set(data.msg);
+		session.set(data.msg);
 		is_verified = true;
 	}
 </script>
