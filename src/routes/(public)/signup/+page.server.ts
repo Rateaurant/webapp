@@ -8,6 +8,13 @@ import {
 } from '$scripts/server';
 import { error, fail, redirect, type Actions } from '@sveltejs/kit';
 import { Logger } from '$scripts/logger';
+import type { PageServerLoad } from './$types';
+
+export const load: PageServerLoad = async ({ url }) => {
+	Logger.info('Signup: Load');
+	const email = url.searchParams.get('email');
+	return { email };
+}
 
 export const actions = {
 	default: async (event) => {

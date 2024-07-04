@@ -8,7 +8,11 @@
 <svelte:window bind:innerWidth={width} />
 
 <main class="flex flex-col gap-16 items-center">
-	<Anchor href="/" label="Go back the landing page">
+	<Anchor
+		force_reload
+		preload_on="tap"
+		href="/"
+		label="Go back the landing page">
 		<img
 			aria-label="Branding"
 			src={logo}
@@ -17,3 +21,9 @@
 	</Anchor>
 	<slot />
 </main>
+
+<style>
+	:global(.body) {
+		background-image: url('/background.svg');
+	}
+</style>

@@ -7,7 +7,7 @@
 </script>
 
 <div
-	aria-label={`${name} for $${offer_price ? offer_price : normal_price}`}
+	aria-label="${name} for $${offer_price ? offer_price : normal_price}"
 	class="bg-dark-25 rounded-md flex gap-5 items-center">
 	<div>
 		{#if is_veg}
@@ -20,12 +20,12 @@
 		<div></div>
 		<img
 			src={img}
-			alt={`${name} for $${offer_price ? offer_price : normal_price}`} />
+			alt="${name} for $${offer_price ? offer_price : normal_price}" />
 	</div>
 	<div class="text-2xl flex flex-col gap-2">
 		{name}
 		<div class="flex gap-2">
-			<div class={`bg-dark-20 p-1 ${offer_price ? 'line-through' : ''}`}>
+			<div class="bg-dark-20 p-1 ${offer_price ? 'line-through' : ''}">
 				${normal_price}
 			</div>
 			{#if offer_price}

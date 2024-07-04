@@ -99,7 +99,7 @@
 			<div class="h-10 text-xl text-center">Recent Reviews</div>
 			{#each reviews as { message, author, rating }}
 				<div
-					aria-label={`${author} gave ${rating} stars`}
+					aria-label="${author} gave ${rating} stars"
 					class="bg-dark-25 flex flex-col gap-1 p-3">
 					<div class="flex gap-8">
 						<div class="opacity-50">{author}</div>

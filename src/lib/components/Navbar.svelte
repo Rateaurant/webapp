@@ -28,18 +28,21 @@
 				class="absolute flex flex-col bg-dark-20 p-4 rounded-xl translate-x-10 translate-y-10"
 				aria-label="Navgation Modal">
 				<Anchor
+					preload_on="tap"
 					handler={turnOffModal}
 					href="/about"
 					label="About us"
 					class="content-center"
 					><div class="hover-underline-animation">About us</div></Anchor>
 				<Anchor
+					preload_on="tap"
 					handler={turnOffModal}
 					href="/contact"
 					label="Contact us"
 					class="content-center"
 					><div class="hover-underline-animation">Contact us</div></Anchor>
 				<Anchor
+					preload_on="tap"
 					handler={turnOffModal}
 					href="/faq"
 					label="Frequently Asked Questions"
@@ -51,11 +54,20 @@
 		<div
 			aria-label="Navigation"
 			class="flex gap-2 xs:gap-5 sm:gap-16 text-sm sm:text-lg md:text-2xl justify-between text-center">
-			<Anchor href="/about" label="About us" class="content-center"
+			<Anchor
+				preload_on="tap"
+				href="/about"
+				label="About us"
+				class="content-center"
 				><div class="hover-underline-animation">About us</div></Anchor>
-			<Anchor href="/contact" label="Contact us" class="content-center"
+			<Anchor
+				preload_on="tap"
+				href="/contact"
+				label="Contact us"
+				class="content-center"
 				><div class="hover-underline-animation">Contact us</div></Anchor>
 			<Anchor
+				preload_on="tap"
 				href="/faq"
 				label="Frequently Asked Questions"
 				class="content-center"
@@ -67,17 +79,20 @@
 		class="flex gap-2 xs:gap-3 sm:gap-6 text-xs sm:text-base md:text-xl justify-between text-center">
 		{#if loggedIn}
 			<Anchor
+				preload_on="tap"
 				class="border p-1 sm:p-2 hover:text-dark-25 hover:bg-whitetext
 				transition-all duration-200 content-center"
 				label="Sign Out"
 				href="/signout">Sign Out</Anchor>
 		{:else}
 			<Anchor
+				preload_on="tap"
 				class="border p-1 sm:p-2 hover:text-dark-25 hover:bg-whitetext
                 transition-all duration-200 content-center"
 				label="Sign In"
 				href="/signin">Sign In</Anchor>
 			<Anchor
+				preload_on="tap"
 				class="border p-1 sm:p-2 hover:text-dark-25 hover:bg-whitetext
                 transition-all duration-200 content-center"
 				label="Sign Up"

@@ -28,7 +28,6 @@
 		submit.loadingTrigger();
 		return async ({ result }) => {
 			submit.resolve();
-			console.log(result);
 			if (result.type == 'success') {
 				session.set(result.data!.message);
 				goto('/');
@@ -48,7 +47,7 @@
 <!-- mb-36 prevents the signup/signin button from getting cut out on hover -->
 <form
 	aria-label="Sign Up form"
-	class="flex flex-col bg-dark-20 rounded-3xl text-lg sm:text-xl mb-36
+	class="flex flex-col bg-dark-15 rounded-3xl text-lg sm:text-xl mb-36
 	drop-shadow-3xl w-1/2 min-w-72 sm:min-w-96 max-w-[35rem]"
 	method="post"
 	use:enhance={formAction}>
@@ -61,7 +60,7 @@
 				name={EMAIL_LABEL}
 				aria-label="Email input"
 				aria-required="true"
-				class="form-input mt-0 block w-full px-0.5 pl-2 border-0 border-b-2 border-gray-200 focus:ring-0 focus:border-black bg-dark-20"
+				class="form-input mt-0 block w-full px-0.5 pl-2 border-0 border-b-2 border-gray-200 focus:ring-0 focus:border-black bg-dark-15"
 				placeholder="johndoe@mail.com" />
 		</label>
 		<label for="password" class="block">
@@ -72,7 +71,7 @@
 				aria-label="Password input"
 				aria-required="true"
 				type="password"
-				class="form-input mt-0 block w-full px-0.5 pl-2 border-0 border-b-2 border-gray-200 focus:ring-0 focus:border-black bg-dark-20" />
+				class="form-input mt-0 block w-full px-0.5 pl-2 border-0 border-b-2 border-gray-200 focus:ring-0 focus:border-black bg-dark-15" />
 		</label>
 
 		<!-- TODO href -->

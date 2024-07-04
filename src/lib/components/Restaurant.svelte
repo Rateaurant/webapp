@@ -7,7 +7,7 @@
 
 <div
 	class="restaurant group rounded-xl relative w-[800px]"
-	aria-label={`Restaurant Name: ${name}. Restaurant Contact no: ${phone}`}>
+	aria-label="Restaurant Name: ${name}. Restaurant Contact no: ${phone}">
 	<img class="rounded-xl" src={picture} alt={name} width={800} />
 	<div class="gard rounded-xl"></div>
 	<div class="flex gap-5">

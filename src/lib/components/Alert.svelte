@@ -45,7 +45,7 @@
 			<!-- https://stackoverflow.com/questions/4171286/how-to-make-a-div-with-no-content-have-a-width -->
 			<div
 				aria-label="Spacing; Ignore"
-				style={`min-width: ${buttonOffsetWidth}px`}>
+				style="min-width: ${buttonOffsetWidth}px">
 			</div>
 		{/if}
 	</div>

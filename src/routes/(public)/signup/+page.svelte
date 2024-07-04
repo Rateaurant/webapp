@@ -8,12 +8,22 @@
 	import { enhance } from '$app/forms';
 	import type { SubmitFunctionFormAction } from '$scripts/action';
 	import { goto } from '$app/navigation';
+	import type { Action } from './$types';
+	import { onMount } from 'svelte';
+
+	export let data: Action & { email: string | null };
 
 	const formData = {
 		email: $email,
 		username: $username,
 		password: $password,
 	};
+
+	onMount(() => {
+		if (data.email != null) {
+			formData.email = data.email;
+		}
+	});
 
 	$: {
 		email.set(formData.email);
@@ -29,7 +39,6 @@
 		captcha.trigger();
 		submit.loadingTrigger();
 		return async ({ result }) => {
-			console.log(result);
 			submit.resolve();
 			if (result.type == 'failure') {
 				alert.trigger(result.data!.message);
@@ -49,7 +58,7 @@
 <!-- mb-36 prevents the signup/signin button from getting cut out on hover -->
 <form
 	aria-label="Sign Up form"
-	class="flex flex-col bg-dark-20 rounded-3xl text-lg sm:text-xl mb-36
+	class="flex flex-col bg-dark-15 rounded-3xl text-lg sm:text-xl mb-36
 	drop-shadow-3xl w-1/2 min-w-72 sm:min-w-96 max-w-[35rem]"
 	method="post"
 	use:enhance={formAction}>
@@ -62,7 +71,7 @@
 				name={EMAIL_LABEL}
 				aria-label="Email input"
 				aria-required="true"
-				class="form-input mt-0 block w-full px-0.5 pl-2 border-0 border-b-2 border-gray-200 focus:ring-0 focus:border-black bg-dark-20"
+				class="form-input mt-0 block w-full px-0.5 pl-2 border-0 border-b-2 border-gray-200 focus:ring-0 focus:border-black bg-dark-15"
 				placeholder="johndoe@mail.com" />
 		</label>
 		<label for="username" class="block">
@@ -72,7 +81,7 @@
 				name={USERNAME_LABEL}
 				aria-label="Username input"
 				aria-required="true"
-				class="form-input mt-0 block w-full px-0.5 pl-2 border-0 border-b-2 border-gray-200 focus:ring-0 focus:border-black bg-dark-20"
+				class="form-input mt-0 block w-full px-0.5 pl-2 border-0 border-b-2 border-gray-200 focus:ring-0 focus:border-black bg-dark-15"
 				placeholder="John Doe" />
 		</label>
 		<label for="password" class="block">
@@ -83,7 +92,7 @@
 				aria-label="Password input"
 				aria-required="true"
 				type="password"
-				class="form-input mt-0 block w-full px-0.5 pl-2 border-0 border-b-2 border-gray-200 focus:ring-0 focus:border-black bg-dark-20" />
+				class="form-input mt-0 block w-full px-0.5 pl-2 border-0 border-b-2 border-gray-200 focus:ring-0 focus:border-black bg-dark-15" />
 		</label>
 		<Anchor
 			href="/signup/owner"

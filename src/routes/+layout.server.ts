@@ -6,7 +6,7 @@ type PageData = {
 	session: string | undefined;
 };
 
-export const load = (async ({ cookies }) => {
+export const load = (async ({ url, cookies }) => {
 	Logger.info('Layout: Load');
 	return {
 		session: cookies.get(SESSION_LABEL),
