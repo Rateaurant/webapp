@@ -3,16 +3,13 @@ export default {
   content: ['./src/**/*.{html,js,svelte,ts}'],
   theme: {
     colors: {
-      primary: '#DE2C20',
-      secondary: '#C2C535',
-      whitetext: '#FFFFEA',
-      dark: {
-        15: '#151515',
-        20: '#202020',
-        25: '#252525',
-        50: '#505050'
+      primary: '#f08000',
+      white: {
+        0: '#e6e6e6',
+        50: '#f9f9f9',
+        100: '#ffffff'
       },
-      green: '#52C535'
+      black: '#000000'
     },
     screens: {
       'xs': '420px',
@@ -24,15 +21,10 @@ export default {
     },
     extend: {
       fontFamily: {
-        montserrat: ['Montserrat']
+        balooBhai2: ['BalooBhai2']
       },
-      dropShadow: {
-        '3xl': '0px 0px 20px rgba(0, 0, 0, 1)'
-      }
     },
   },
-  plugins: [
-    require('@tailwindcss/forms')
-  ],
+  plugins: [],
 }
 

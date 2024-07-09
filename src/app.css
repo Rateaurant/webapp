@@ -3,7 +3,11 @@
 @tailwind utilities;
 
 @font-face {
-	font-family: 'Montserrat';
-	src: local('Montserrat'), url('/Montserrat.ttf');
+	font-family: 'BalooBhai2';
+	src: local('BalooBhai2'), url('/BalooBhai2.ttf');
 	font-display: swap;
+}
+
+:root {
+	font-family: 'BalooBhai2';
 }
