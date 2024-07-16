@@ -1,12 +1,32 @@
 import type { Metadata } from "next";
 import { Baloo_Bhai_2 } from "next/font/google";
+import { createTheme, ColorSchemeScript, MantineProvider } from "@mantine/core";
+import { IconoirProvider } from "iconoir-react";
+
+import '@mantine/core/styles.css';
 import "./globals.css";
 
-const font = Baloo_Bhai_2({ });
+const font = Baloo_Bhai_2({ subsets: ['latin'] });
+const theme = createTheme({
+  colors: {
+    orange: [
+      '#fff4e3',
+      '#ffe9cd',
+      '#ffd19c',
+      '#feb765',
+      '#fea139',
+      '#fe941d',
+      '#fe8c0d',
+      '#e37900',
+      '#ca6a00',
+      '#b05a00'
+    ]
+  }
+});
 
 export const metadata: Metadata = {
   title: "Rateaurant",
-  description: "",
+  description: "Rateaurant is a one-stop-shop for all your restaurant needs",
 };
 
 export default function RootLayout({
@@ -39,10 +59,22 @@ export default function RootLayout({
           color="#de2c20" />
         <meta name="msapplication-TileColor" content="#505050" />
         <meta name="theme-color" content="#505050" />
-
         <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+        <ColorSchemeScript />
       </head>
-      <body className={font.className}>{children}</body>
+      <body className={font.className}>
+        <IconoirProvider iconProps={{
+          color: '#000000',
+          strokeWidth: 1.5,
+          width: 24,
+          height: 24
+        }}>
+          <MantineProvider defaultColorScheme="light" theme={theme}>
+            {children}
+          </MantineProvider>
+        </IconoirProvider>
+      </body>
     </html>
   );
 }
