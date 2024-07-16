@@ -23,6 +23,9 @@ export default {
       fontFamily: {
         balooBhai2: ['BalooBhai2']
       },
+      transitionProperty: {
+        'width': 'width'
+      },
     },
   },
   plugins: [],

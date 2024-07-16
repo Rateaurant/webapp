@@ -1,0 +1,1 @@
+<h1 class="flex gap-2 ml-80 mt-5 text-5xl">Welcome to <b class="text-primary">Restaurant Name</b></h1>

@@ -16,6 +16,8 @@
 		"@sveltejs/kit": "^2.0.0",
 		"@sveltejs/vite-plugin-svelte": "^3.0.0",
 		"autoprefixer": "^10.4.19",
+		"flowbite": "^2.4.1",
+		"flowbite-svelte": "^0.46.15",
 		"postcss": "^8.4.39",
 		"prettier": "^3.3.1",
 		"prettier-plugin-svelte": "^3.2.3",
@@ -30,6 +32,7 @@
 	"dependencies": {
 		"@splinetool/runtime": "^1.8.7",
 		"@sveltejs/adapter-vercel": "^5.3.1",
-		"dotenv": "^16.4.5"
+		"dotenv": "^16.4.5",
+		"iconoir": "^7.7.0"
 	}
 }
