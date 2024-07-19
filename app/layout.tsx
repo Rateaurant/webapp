@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
-import { Baloo_Bhai_2 } from "next/font/google";
-import { createTheme, ColorSchemeScript, MantineProvider } from "@mantine/core";
+import { createTheme, ColorSchemeScript, MantineProvider } from '@mantine/core'
 import { IconoirProvider } from "iconoir-react";
-
+import { Baloo_Bhai_2 } from "next/font/google";
 import '@mantine/core/styles.css';
 import "./globals.css";
+import { LayoutHandler } from "./types";
+import Navbar from "@/components/Navbar";
 
 const font = Baloo_Bhai_2({ subsets: ['latin'] });
 const theme = createTheme({
@@ -29,11 +30,7 @@ export const metadata: Metadata = {
   description: "Rateaurant is a one-stop-shop for all your restaurant needs",
 };
 
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+const RootLayout: LayoutHandler = ({ children }) => {
   return (
     <html lang="en">
       <head>
@@ -71,6 +68,7 @@ export default function RootLayout({
           height: 24
         }}>
           <MantineProvider defaultColorScheme="light" theme={theme}>
+            <Navbar />
             {children}
           </MantineProvider>
         </IconoirProvider>
@@ -78,3 +76,4 @@ export default function RootLayout({
     </html>
   );
 }
+export default RootLayout
