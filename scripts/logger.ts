@@ -1,8 +1,10 @@
+import { DEV } from "./is_dev";
+
 const INFO = 0;
 const WARN = 1;
 const ERROR = 2;
 
-const LOG_LEVEL = process.env.NODE_ENV == "development" ? INFO : WARN;
+const LOG_LEVEL = DEV ? INFO : WARN;
 
 export class Logger {
     static info(message: string) {

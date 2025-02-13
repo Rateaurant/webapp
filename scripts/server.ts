@@ -1,10 +1,7 @@
+import { DEV } from './is_dev';
 import { Logger } from './logger';
-export type HandlerResponse = {
-	alright: boolean
-	message?: string
-};
 
-const SERVER_ADDRESS = process.env.NODE_ENV == "development"
+const SERVER_ADDRESS = DEV
 	? 'http://127.0.0.1:5000'
 	: 'https://api.rateaurant.vercel.app';
 
@@ -42,6 +39,7 @@ const GET = 'GET';
 const POST = 'POST';
 
 export enum EndPoints {
+	Root = '/',
 	CustomerSignUp = 'register/user',
 	OwnerSignUp = 'register/owner',
 
@@ -88,16 +86,23 @@ function getCodeType(status: HTTPCodes): HTTPCodeTypes {
 	return HTTPCodeTypes.ServerError;
 }
 
-class ServerResponse {
+export async function checkServerHealth(): Promise<boolean> {
+	return await (await request<boolean>(EndPoints.Root, null, {}))
+		.on_type(HTTPCodeTypes.Successful, () => true)
+		.catch(() => false)
+		.getResult() ?? false;
+}
+
+class ServerResponse<T> {
 	response: Response | null;
-	handler_response: Promise<HandlerResponse> | HandlerResponse | null;
+	handler_response: Promise<T> | T | null;
 	constructor(response: Response | null) {
 		this.response = response;
 		this.handler_response = null;
 	}
 	on(
 		code: number,
-		handler: (response: Response) => Promise<HandlerResponse> | HandlerResponse,
+		handler: (response: Response) => Promise<T> | T,
 	): this {
 		if (this.response == null || this.handler_response != null) {
 			return this;
@@ -112,7 +117,7 @@ class ServerResponse {
 	}
 	on_type(
 		codeType: HTTPCodeTypes,
-		handler: (response: Response) => Promise<HandlerResponse> | HandlerResponse,
+		handler: (response: Response) => Promise<T> | T,
 	): this {
 		if (this.response == null || this.handler_response != null) {
 			return this;
@@ -125,7 +130,7 @@ class ServerResponse {
 		}
 		return this;
 	}
-	catch(handler: () => Promise<HandlerResponse> | HandlerResponse): this {
+	catch(handler: () => Promise<T> | T): this {
 		if (this.response == null) {
 			const response = handler();
 			if (response) {
@@ -134,8 +139,8 @@ class ServerResponse {
 		}
 		return this;
 	}
-	async getResult(): Promise<HandlerResponse | null> {
-		let result: HandlerResponse | null;
+	async getResult(): Promise<T | null> {
+		let result: T | null;
 		if (this.handler_response instanceof Promise) {
 			result = await this.handler_response;
 		} else {
@@ -173,11 +178,11 @@ function getEndpoint(endpoint: EndPoints): string {
 	return SERVER_ADDRESS + '/' + endpoint;
 }
 
-export async function request(
+export async function request<T>(
 	endpoint: EndPoints,
 	token: string | null,
 	data: Object,
-): Promise<ServerResponse> {
+): Promise<ServerResponse<T>> {
 	if (requiresAuth(endpoint) && token == null) {
 		Logger.error(`Server: ${endpoint} requires Authentication`);
 		return new ServerResponse(null);

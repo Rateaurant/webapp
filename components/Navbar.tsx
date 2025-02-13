@@ -1,4 +1,4 @@
-'use client'
+"use client";
 
 import { FunctionComponent } from "react";
 import {
@@ -20,8 +20,8 @@ import {
   rem,
   useMantineTheme,
   Image,
- } from "@mantine/core";
-import { useDisclosure } from '@mantine/hooks';
+} from "@mantine/core";
+import { useDisclosure } from "@mantine/hooks";
 import {
   IconNotification,
   IconCode,
@@ -30,46 +30,47 @@ import {
   IconFingerprint,
   IconCoin,
   IconChevronDown,
-} from '@tabler/icons-react';
-import classes from '@/styles/HeaderMegaMenu.module.css';
-import logo from '@/public/logo.svg';
+} from "@tabler/icons-react";
+import classes from "@/styles/HeaderMegaMenu.module.css";
+import logo from "@/public/logo.svg";
 import Link from "next/link";
 
 const mockdata = [
   {
     icon: IconCode,
-    title: 'Open source',
-    description: 'This Pokémon’s cry is very loud and distracting',
+    title: "Open source",
+    description: "This Pokémon’s cry is very loud and distracting",
   },
   {
     icon: IconCoin,
-    title: 'Free for everyone',
-    description: 'The fluid of Smeargle’s tail secretions changes',
+    title: "Free for everyone",
+    description: "The fluid of Smeargle’s tail secretions changes",
   },
   {
     icon: IconBook,
-    title: 'Documentation',
-    description: 'Yanma is capable of seeing 360 degrees without',
+    title: "Documentation",
+    description: "Yanma is capable of seeing 360 degrees without",
   },
   {
     icon: IconFingerprint,
-    title: 'Security',
-    description: 'The shell’s rounded shape and the grooves on its.',
+    title: "Security",
+    description: "The shell’s rounded shape and the grooves on its.",
   },
   {
     icon: IconChartPie3,
-    title: 'Analytics',
-    description: 'This Pokémon uses its flying ability to quickly chase',
+    title: "Analytics",
+    description: "This Pokémon uses its flying ability to quickly chase",
   },
   {
     icon: IconNotification,
-    title: 'Notifications',
-    description: 'Combusken battles with the intensely hot flames it spews',
+    title: "Notifications",
+    description: "Combusken battles with the intensely hot flames it spews",
   },
 ];
 
-const Navbar: FunctionComponent<{}> = ({}) => {
-  const [drawerOpened, { toggle: toggleDrawer, close: closeDrawer }] = useDisclosure(false);
+const Navbar: FunctionComponent<{ path: string }> = ({ path }) => {
+  const [drawerOpened, { toggle: toggleDrawer, close: closeDrawer }] =
+    useDisclosure(false);
   const [linksOpened, { toggle: toggleLinks }] = useDisclosure(false);
   const theme = useMantineTheme();
 
@@ -77,7 +78,10 @@ const Navbar: FunctionComponent<{}> = ({}) => {
     <UnstyledButton className={classes.subLink} key={item.title}>
       <Group wrap="nowrap" align="flex-start">
         <ThemeIcon size={34} variant="default" radius="md">
-          <item.icon style={{ width: rem(22), height: rem(22) }} color={theme.colors.blue[6]} />
+          <item.icon
+            style={{ width: rem(22), height: rem(22) }}
+            color={theme.colors.blue[6]}
+          />
         </ThemeIcon>
         <div>
           <Text size="sm" fw={500}>
@@ -90,7 +94,8 @@ const Navbar: FunctionComponent<{}> = ({}) => {
       </Group>
     </UnstyledButton>
   ));
-    return <Box>
+  return (
+    <Box>
       <header className={classes.header}>
         <Group justify="space-between" h="100%">
           <Image src={logo.src} alt="Rateaurant Logo" />
@@ -99,7 +104,12 @@ const Navbar: FunctionComponent<{}> = ({}) => {
             <a href="/" className={classes.link}>
               Home
             </a>
-            <HoverCard width={600} position="bottom" radius="md" shadow="md" withinPortal>
+            <HoverCard
+              width={600}
+              position="bottom"
+              radius="md"
+              shadow="md"
+              withinPortal>
               <HoverCard.Target>
                 <a href="#" className={classes.link}>
                   <Center inline>
@@ -114,7 +124,7 @@ const Navbar: FunctionComponent<{}> = ({}) => {
                 </a>
               </HoverCard.Target>
 
-              <HoverCard.Dropdown style={{ overflow: 'hidden' }}>
+              <HoverCard.Dropdown style={{ overflow: "hidden" }}>
                 <Group justify="space-between" px="md">
                   <Text fw={500}>Features</Text>
                   <Anchor href="#" fz="xs">
@@ -152,15 +162,24 @@ const Navbar: FunctionComponent<{}> = ({}) => {
           </Group>
 
           <Group visibleFrom="sm">
-            <Link href="/auth?mode=login">
-              <Button variant="default">Log in</Button>
-            </Link>
-            <Link href="/auth">
-              <Button color="orange">Sign up</Button>
-            </Link>
+            {path == "auth" ? (
+              <></>
+            ) : (
+              <>
+                <Link href="/auth?mode=login">
+                  <Button variant="default">Log in</Button>
+                </Link>
+                <Link href="/auth">
+                  <Button color="orange">Sign up</Button>
+                </Link>
+              </>
+            )}
           </Group>
-
-          <Burger opened={drawerOpened} onClick={toggleDrawer} hiddenFrom="sm" />
+          <Burger
+            opened={drawerOpened}
+            onClick={toggleDrawer}
+            hiddenFrom="sm"
+          />
         </Group>
       </header>
 
@@ -171,8 +190,7 @@ const Navbar: FunctionComponent<{}> = ({}) => {
         padding="md"
         title="Navigation"
         hiddenFrom="sm"
-        zIndex={1000000}
-      >
+        zIndex={1000000}>
         <ScrollArea h={`calc(100vh - ${rem(80)})`} mx="-md">
           <Divider my="sm" />
 
@@ -207,5 +225,6 @@ const Navbar: FunctionComponent<{}> = ({}) => {
         </ScrollArea>
       </Drawer>
     </Box>
-}
+  );
+};
 export default Navbar;
